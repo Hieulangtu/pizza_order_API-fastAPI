@@ -6,9 +6,17 @@ Sau khi tạo, bạn cần kích hoạt môi trường ảo để sử dụng: e
 
 bắt đầu cài đặt các dependencies
   pip install fastapi : 
+  pip install uvicorn   
+
 
 tuy nhiên code sẽ tạm thời chưa chạy được (chưa nhận diện được fastapi) vì VS Code có thể không tự động nhận diện hoặc kết nối với interpreter
 của môi trường ảo  -> cần kích hoạt Python interpreter của VS Code (VS Code trỏe đúng vào môi trường ảo), bằng cách:
     Nhấn Ctrl + Shift + P (hoặc Cmd + Shift + P trên macOS).
     Tìm và chọn Python: Select Interpreter.
     Chọn môi trường ảo bạn đã tạo cho dự án (thường có đường dẫn giống như .../env/Scripts/python)
+
+
+cài đặt tiếp các dependencies (sau khi môi trường chạy trơn tru):
+  pip install fastapi : cài đặt fastapi
+  pip install uvicorn : cái đặt Uvicorn - một máy chủ web ASGI (Asynchronous Server Gateway Interface) nhanh và nhẹ
+  pip install sqlalchemy psycopg2-binary
