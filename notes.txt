@@ -19,4 +19,5 @@ của môi trường ảo  -> cần kích hoạt Python interpreter của VS Cod
 cài đặt tiếp các dependencies (sau khi môi trường chạy trơn tru):
   pip install fastapi : cài đặt fastapi
   pip install uvicorn : cái đặt Uvicorn - một máy chủ web ASGI (Asynchronous Server Gateway Interface) nhanh và nhẹ
-  pip install sqlalchemy psycopg2-binary
+  pip install sqlalchemy psycopg2-binary : Đây là một driver cho phép SQLAlchemy kết nối với cơ sở dữ liệu PostgreSQL.
+  pip install sqlalchemy-utils: là một thư viện bổ sung cung cấp nhiều kiểu dữ liệu và công cụ hữu ích cho SQLAlchemy, bao gồm ChoiceType
