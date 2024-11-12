@@ -22,3 +22,4 @@ cài đặt tiếp các dependencies (sau khi môi trường chạy trơn tru):
   pip install sqlalchemy psycopg2-binary : Đây là một driver cho phép SQLAlchemy kết nối với cơ sở dữ liệu PostgreSQL.
   pip install sqlalchemy-utils: là một thư viện bổ sung cung cấp nhiều kiểu dữ liệu và công cụ hữu ích cho SQLAlchemy, bao gồm ChoiceType
   pip install fastapi_jwt_auth
+  pip install "pydantic<2.0" : fastapi_jwt_auth chưa tương thích hoàn toàn với pydantic bản mới nên xảy ra xung đột

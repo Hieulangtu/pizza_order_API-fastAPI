@@ -1,4 +1,5 @@
 #File schema.py này đóng vai trò xác thực, định nghĩa và tài liệu hóa cấu trúc dữ liệu trong API:
+#kiểm soát dữ liêu đầu vào và đầu ra
 
 from pydantic import BaseModel
 from typing import Optional
@@ -27,7 +28,7 @@ class SignUpModel(BaseModel):
 
 
 class Settings(BaseModel):
-    authjwt_secret_key:str='b4bb9013c1c03b29b9311ec0df07f3b0d8fd13edd02d5c45b2fa7b86341fa405'
+    authjwt_secret_key:str='3691225de6283f15c82c0dcb8550b1781bcb4be5825382d16504f36cf4bea054'
 
 
 class LoginModel(BaseModel):
