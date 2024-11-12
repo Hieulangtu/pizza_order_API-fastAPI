@@ -9,45 +9,48 @@ from fastapi.routing import APIRoute
 from fastapi.openapi.utils import get_openapi
 import json
 import time
+from middleware import LogRequestMiddleware
 
 app=FastAPI()
 
-@app.middleware("http")
-async def log_full_request(request: Request, call_next):
-    # Log method và URL
-    print(f"Request Method: {request.method}")
-    print(f"Request URL: {request.url}")
+app.add_middleware(LogRequestMiddleware)
 
-    # Log headers
-    print("Headers:")
-    for key, value in request.headers.items():
-        print(f"    {key}: {value}")
+# @app.middleware("http")
+# async def log_full_request(request: Request, call_next):
+#     # Log method và URL
+#     print(f"Request Method: {request.method}")
+#     print(f"Request URL: {request.url}")
 
-    # Log query parameters
-    print("Query Parameters:")
-    for key, value in request.query_params.items():
-        print(f"    {key}: {value}")
+#     # Log headers
+#     print("Headers:")
+#     for key, value in request.headers.items():
+#         print(f"    {key}: {value}")
 
-    # Log body (nếu có)
-    if request.method in ("POST", "PUT", "PATCH"):
-        body = await request.body()
-        try:
-            # Nếu body là JSON, chuyển đổi và in đẹp hơn
-            print("Body:", json.dumps(json.loads(body), indent=4))
-        except json.JSONDecodeError:
-            print("Body:", body)
+#     # Log query parameters
+#     print("Query Parameters:")
+#     for key, value in request.query_params.items():
+#         print(f"    {key}: {value}")
 
-    # Log metadata (nếu có)
-    print("Metadata:")
-    for key, value in request.scope.items():
-        print(f"    {key}: {value}")
+#     # Log body (nếu có)
+#     if request.method in ("POST", "PUT", "PATCH"):
+#         body = await request.body()
+#         try:
+#             # Nếu body là JSON, chuyển đổi và in đẹp hơn
+#             print("Body:", json.dumps(json.loads(body), indent=4))
+#         except json.JSONDecodeError:
+#             print("Body:", body)
 
-    # Đo thời gian xử lý
-    start_time = time.time()
-    response = await call_next(request)
-    duration = time.time() - start_time
-    print(f"Completed in {duration:.2f} sec\n{'-'*50}")
-    return response
+#     # Log metadata (nếu có)
+#     print("Metadata:")
+#     for key, value in request.scope.items():
+#         print(f"    {key}: {value}")
+
+#     # Đo thời gian xử lý
+#     start_time = time.time()
+#     response = await call_next(request)
+#     duration = time.time() - start_time
+#     print(f"Completed in {duration:.2f} sec\n{'-'*50}")
+#     return response
 
 def custom_openapi():
     if app.openapi_schema:
