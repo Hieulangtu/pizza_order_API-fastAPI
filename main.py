@@ -15,7 +15,7 @@ from hashlib import sha256
 app=FastAPI()
 
 #writes requests to requests.txt
-#app.add_middleware(LogRequestMiddleware)
+app.add_middleware(LogRequestMiddleware)
 
 # @app.middleware("http")
 # async def log_full_request(request: Request, call_next):
@@ -56,7 +56,7 @@ app=FastAPI()
 
 @app.middleware("http")
 async def fingerprint_middleware(request: Request, call_next):
-    # Lấy các yếu tố fingerprint từ request
+    # some signature atttributes from request
     user_agent = request.headers.get("user-agent", "")
     accept_language = request.headers.get("accept-language", "")
     sec_ch_ua = request.headers.get("sec-ch-ua", "")
@@ -65,12 +65,15 @@ async def fingerprint_middleware(request: Request, call_next):
     
 
     
-    # Tạo hash cho fingerprint
+    # hash fingerprint
     fingerprint_string = f"{sec_ch_ua}-{user_agent}-{sec_ch_ua_platform}-{accept_language}-{sec_ch_ua_mobile}"
     fingerprint_hash = sha256(fingerprint_string.encode()).hexdigest()
 
-    # Log fingerprint (hoặc lưu vào cơ sở dữ liệu)
+    # print fingerprint 
     print(f"Fingerprint: {fingerprint_hash}")
+
+    with open("fingerprints.txt", "a") as log_file:
+        log_file.write(json.dumps(fingerprint_hash, indent=4) + "\n\n")
     
     response = await call_next(request)
     return response
