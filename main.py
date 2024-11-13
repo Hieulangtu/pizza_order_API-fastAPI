@@ -10,10 +10,12 @@ from fastapi.openapi.utils import get_openapi
 import json
 import time
 from middleware import LogRequestMiddleware
+from hashlib import sha256
 
 app=FastAPI()
 
-app.add_middleware(LogRequestMiddleware)
+#writes requests to requests.txt
+#app.add_middleware(LogRequestMiddleware)
 
 # @app.middleware("http")
 # async def log_full_request(request: Request, call_next):
@@ -51,6 +53,28 @@ app.add_middleware(LogRequestMiddleware)
 #     duration = time.time() - start_time
 #     print(f"Completed in {duration:.2f} sec\n{'-'*50}")
 #     return response
+
+@app.middleware("http")
+async def fingerprint_middleware(request: Request, call_next):
+    # Lấy các yếu tố fingerprint từ request
+    user_agent = request.headers.get("user-agent", "")
+    accept_language = request.headers.get("accept-language", "")
+    sec_ch_ua = request.headers.get("sec-ch-ua", "")
+    sec_ch_ua_platform = request.headers.get("sec-ch-ua-platform", "")
+    sec_ch_ua_mobile = request.headers.get("sec-ch-ua-mobile", "")
+    
+
+    
+    # Tạo hash cho fingerprint
+    fingerprint_string = f"{sec_ch_ua}-{user_agent}-{sec_ch_ua_platform}-{accept_language}-{sec_ch_ua_mobile}"
+    fingerprint_hash = sha256(fingerprint_string.encode()).hexdigest()
+
+    # Log fingerprint (hoặc lưu vào cơ sở dữ liệu)
+    print(f"Fingerprint: {fingerprint_hash}")
+    
+    response = await call_next(request)
+    return response
+
 
 def custom_openapi():
     if app.openapi_schema:
