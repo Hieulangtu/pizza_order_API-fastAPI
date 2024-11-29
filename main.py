@@ -62,18 +62,28 @@ async def fingerprint_middleware(request: Request, call_next):
     sec_ch_ua = request.headers.get("sec-ch-ua", "")
     sec_ch_ua_platform = request.headers.get("sec-ch-ua-platform", "")
     sec_ch_ua_mobile = request.headers.get("sec-ch-ua-mobile", "")
+
+    #sec-ch-ua handle
+     # Extract only the first meaningful browser info from sec-ch-ua
+    sec_ch_ua_list = [item.strip() for item in sec_ch_ua.split(",")]
+
+    if "Chromium" in sec_ch_ua_list[0]:
+      important_sec_ch_ua = sec_ch_ua_list[1]  # Nếu phần tử đầu tiên chứa "Chromium", lấy phần tử thứ hai
+    else:
+      important_sec_ch_ua = sec_ch_ua_list[0]  # Nếu không, lấy phần tử đầu tiên
     
+    print(f"in4:{important_sec_ch_ua}")
 
     
     # hash fingerprint
-    fingerprint_string = f"{sec_ch_ua}-{user_agent}-{sec_ch_ua_platform}-{accept_language}-{sec_ch_ua_mobile}"
+    fingerprint_string = f"{important_sec_ch_ua}-{user_agent}-{sec_ch_ua_platform}-{accept_language}-{sec_ch_ua_mobile}"
     fingerprint_hash = sha256(fingerprint_string.encode()).hexdigest()
 
     # print fingerprint 
     print(f"Fingerprint: {fingerprint_hash}")
 
-    with open("fingerprints.txt", "a") as log_file:
-        log_file.write(json.dumps(fingerprint_hash, indent=4) + "\n\n")
+    with open("fingerprintsV2.txt", "a") as log_file:
+        log_file.write(f"{fingerprint_hash}   {important_sec_ch_ua}\n\n")
     
     response = await call_next(request)
     return response
