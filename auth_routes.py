@@ -1,12 +1,14 @@
-from fastapi import APIRouter, status, Depends
+from fastapi import APIRouter, status, Depends, Request
 from fastapi.exceptions import HTTPException
 from database import Session,engine
 from schemas import SignUpModel,LoginModel
-from models import User
+from models import User, TokenLog
 from fastapi.exceptions import HTTPException
 from werkzeug.security import generate_password_hash , check_password_hash
 from fastapi_jwt_auth import AuthJWT
 from fastapi.encoders import jsonable_encoder
+from middleware.fingerprintHTTP_create import generate_fingerprint
+from datetime import datetime
 
 auth_router = APIRouter(
     prefix='/auth',
@@ -82,7 +84,7 @@ async def signup(user:SignUpModel):
 #login route
 
 @auth_router.post('/login',status_code=200)
-async def login(user:LoginModel,Authorize:AuthJWT=Depends()):
+async def login(user:LoginModel,request: Request, Authorize:AuthJWT=Depends()):
     """     
         ## Login a user
         This requires
@@ -97,6 +99,27 @@ async def login(user:LoginModel,Authorize:AuthJWT=Depends()):
     if db_user and check_password_hash(db_user.password, user.password):
         access_token=Authorize.create_access_token(subject=db_user.username)
         refresh_token=Authorize.create_refresh_token(subject=db_user.username)
+
+        fingerprint = generate_fingerprint(request)
+        # Lưu vào bảng token_logs
+        access_log = TokenLog(
+           fingerprint=fingerprint,
+           token=access_token,
+           type="access_token",
+           created_at=datetime.utcnow()
+        )
+
+        refresh_log = TokenLog(
+           fingerprint=fingerprint,
+           token=refresh_token,
+           type="refresh_token",
+           created_at=datetime.now()
+        )
+
+         # Sử dụng session để lưu vào cơ sở dữ liệu
+        session.add(access_log)
+        session.add(refresh_log)
+        session.commit()
 
         response={
             "access":access_token,

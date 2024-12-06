@@ -1,5 +1,5 @@
 from database import engine,Base
-from models import User,Order
+from models import User,Order,TokenLog
 
 
 Base.metadata.create_all(bind=engine)

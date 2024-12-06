@@ -1,5 +1,6 @@
 from database import Base
-from sqlalchemy import Column,Integer,Boolean,Text,String,ForeignKey
+from sqlalchemy import Column,Integer,Boolean,Text,String,ForeignKey,DateTime
+from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
 from sqlalchemy_utils.types import ChoiceType
 
@@ -16,7 +17,7 @@ class User(Base):
 
 
     def __repr__(self):
-        return f"<User {self.username}"
+        return f"<User {self.username}>"
 
 
 class Order(Base):
@@ -46,3 +47,16 @@ class Order(Base):
 
     def __repr__(self):
         return f"<Order {self.id}>"
+    
+
+class TokenLog(Base):
+    __tablename__ = 'token_logs'
+
+    id = Column(Integer, primary_key=True)
+    fingerprint = Column(String(128), nullable=False)  # SHA256 hash
+    token = Column(Text, nullable=False)  # JWT token
+    type=Column(Text,nullable=False)
+    created_at = Column(DateTime(timezone=True), default=func.now())  # Thời gian tạo
+
+    def __repr__(self):
+        return f"<TokenLog(id={self.id}, fingerprint={self.fingerprint[:8]}...)>"

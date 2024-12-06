@@ -23,3 +23,8 @@ cài đặt tiếp các dependencies (sau khi môi trường chạy trơn tru):
   pip install sqlalchemy-utils: là một thư viện bổ sung cung cấp nhiều kiểu dữ liệu và công cụ hữu ích cho SQLAlchemy, bao gồm ChoiceType
   pip install fastapi_jwt_auth
   pip install "pydantic<2.0" : fastapi_jwt_auth chưa tương thích hoàn toàn với pydantic bản mới nên xảy ra xung đột
+
+để chạy kết nối vs database (thiết lập bảng) , chạy lệnh : python init_db.py
+
+để chạy server dùng lệnh : uvicorn main:app --reload 
+tham số reload dùng để khởi động lại server khi mã nguồn có thay đổi

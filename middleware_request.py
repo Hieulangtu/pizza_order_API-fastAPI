@@ -19,6 +19,7 @@ class LogRequestMiddleware(BaseHTTPMiddleware):
             "query_params": dict(request.query_params),
             "path_params": dict(request.path_params),
             "client": request.client.host if request.client else None,
+            "client_meta": request.client.host if request.client else None,
             "cookies": request.cookies,
             "scope": {k: safe_serialize(v) for k, v in request.scope.items()}
         }
