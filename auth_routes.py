@@ -106,7 +106,7 @@ async def login(user:LoginModel,request: Request, Authorize:AuthJWT=Depends()):
            fingerprint=fingerprint,
            token=access_token,
            type="access_token",
-           created_at=datetime.utcnow()
+           created_at=datetime.now()
         )
 
         refresh_log = TokenLog(

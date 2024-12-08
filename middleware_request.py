@@ -19,7 +19,7 @@ class LogRequestMiddleware(BaseHTTPMiddleware):
             "query_params": dict(request.query_params),
             "path_params": dict(request.path_params),
             "client": request.client.host if request.client else None,
-            "client_meta": request.client.host if request.client else None,
+            "client_meta": request.client if request.client else None,
             "cookies": request.cookies,
             "scope": {k: safe_serialize(v) for k, v in request.scope.items()}
         }
@@ -29,7 +29,7 @@ class LogRequestMiddleware(BaseHTTPMiddleware):
         log_data["body"] = body.decode("utf-8") if body else "No body"
 
         # Ghi toàn bộ log vào file requests.txt
-        with open("requests.txt", "a") as log_file:
+        with open("requests_log/requestsV3.txt", "a") as log_file:
             log_file.write(json.dumps(log_data, indent=4) + "\n\n")
 
         # Tiếp tục xử lý request và trả về response

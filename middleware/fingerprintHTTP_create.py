@@ -22,17 +22,18 @@ def generate_fingerprint(request: Request) -> str:
     sec_ch_ua = request.headers.get("sec-ch-ua", "")
     sec_ch_ua_platform = request.headers.get("sec-ch-ua-platform", "")
     sec_ch_ua_mobile = request.headers.get("sec-ch-ua-mobile", "")
-    ip_address = request.client
+    ip_address = request.client.host
+
 
     # Xử lý sec-ch-ua để lấy thông tin trình duyệt chính
     sec_ch_ua_list = [item.strip() for item in sec_ch_ua.split(",")]
     important_sec_ch_ua = sec_ch_ua_list[1] if "Chromium" in sec_ch_ua_list[0] else sec_ch_ua_list[0]
 
     # Tạo fingerprint string và hash
-    fingerprint_string = f"{important_sec_ch_ua}-{user_agent}-{sec_ch_ua_platform}-{accept_language}-{sec_ch_ua_mobile}/{ip_address}*{accept_encoding}"
+    fingerprint_string = f"{important_sec_ch_ua}-{user_agent}-{sec_ch_ua_platform}-{accept_language}-{sec_ch_ua_mobile}-{ip_address}-{accept_encoding}"
     fingerprint_hash = sha256(fingerprint_string.encode()).hexdigest()
 
-    with open("fingerprintsV2.txt", "a") as log_file:
+    with open("fingerprints_log/fingerprintsV3.txt", "a") as log_file:
         log_file.write(f"{fingerprint_hash}   {important_sec_ch_ua}\n\n")
 
     return fingerprint_hash
