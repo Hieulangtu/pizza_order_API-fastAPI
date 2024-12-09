@@ -1,4 +1,4 @@
-from fastapi import APIRouter, status, Depends, Request
+from fastapi import APIRouter, status, Depends, Request, Response
 from fastapi.exceptions import HTTPException
 from database import Session,engine
 from schemas import SignUpModel,LoginModel
@@ -9,6 +9,7 @@ from fastapi_jwt_auth import AuthJWT
 from fastapi.encoders import jsonable_encoder
 from middleware.fingerprintHTTP_create import generate_fingerprint
 from datetime import datetime
+import uuid
 
 auth_router = APIRouter(
     prefix='/auth',
@@ -29,7 +30,7 @@ async def hello(Authorize:AuthJWT=Depends()):
 
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid Token"
+            detail="Invalid Token, please log in or sign up !"
         )
 
     return {"message":"Hello World"}
@@ -84,7 +85,7 @@ async def signup(user:SignUpModel):
 #login route
 
 @auth_router.post('/login',status_code=200)
-async def login(user:LoginModel,request: Request, Authorize:AuthJWT=Depends()):
+async def login(user:LoginModel,request: Request,response: Response, Authorize:AuthJWT=Depends()):
     """     
         ## Login a user
         This requires
@@ -100,33 +101,97 @@ async def login(user:LoginModel,request: Request, Authorize:AuthJWT=Depends()):
         access_token=Authorize.create_access_token(subject=db_user.username)
         refresh_token=Authorize.create_refresh_token(subject=db_user.username)
 
+        # Create sessionId (sử dụng UUID)
+        session_id = str(uuid.uuid4())  
+        response.set_cookie(key="sessionId", value=session_id, httponly=True) #store in cookie
+
         fingerprint = generate_fingerprint(request)
-        # Lưu vào bảng token_logs
-        access_log = TokenLog(
-           fingerprint=fingerprint,
-           token=access_token,
-           type="access_token",
-           created_at=datetime.now()
-        )
 
-        refresh_log = TokenLog(
-           fingerprint=fingerprint,
-           token=refresh_token,
-           type="refresh_token",
-           created_at=datetime.now()
-        )
+        # Kiểm tra user_id trong bảng token_logs
+        existing_tokens = session.query(TokenLog).filter(TokenLog.user_id == db_user.id).all()
 
-         # Sử dụng session để lưu vào cơ sở dữ liệu
-        session.add(access_log)
-        session.add(refresh_log)
-        session.commit()
+        if existing_tokens:
+            # exist user in token_logs
+            matching_tokens = None
+            matching_tokens = [
+                token for token in existing_tokens
+                if token.fingerprint == fingerprint and token.session_id == session_id
+            ]
 
-        response={
-            "access":access_token,
-            "refresh":refresh_token
+            if matching_tokens:
+                # Trường hợp 1: Cùng fingerprint và sessionId, ghi đè giá trị cột
+                for token in matching_tokens:
+                    if token.type == "access_token":
+                        token.token = access_token
+                    elif token.type == "refresh_token":
+                        token.token = refresh_token
+                    token.created_at = datetime.now()
+                    token.session_id = session_id
+                    token.root_token=refresh_token
+                
+                session.commit()
+                print(f"Updated tokens for user_id={db_user.id}")
+            else:
+                # Trường hợp 2: Không trùng fingerprint hoặc sessionId, xử lý như bình thường
+                access_log = TokenLog(
+                    fingerprint=fingerprint,
+                    token=access_token,
+                    type="access_token",
+                    created_at=datetime.now(),
+                    root_token=refresh_token,
+                    session_id=session_id,
+                    user_id=db_user.id
+                )
+
+                refresh_log = TokenLog(
+                    fingerprint=fingerprint,
+                    token=refresh_token,
+                    type="refresh_token",
+                    created_at=datetime.now(),
+                    root_token=refresh_token,
+                    session_id=session_id,
+                    user_id=db_user.id
+                )
+
+                session.add(access_log)
+                session.add(refresh_log)
+                session.commit()
+                print(f"Added new tokens for user_id={db_user.id}")
+        else:
+            # Trường hợp không có token của user_id trong bảng, thêm mới
+            access_log = TokenLog(
+                fingerprint=fingerprint,
+                token=access_token,
+                type="access_token",
+                created_at=datetime.now(),
+                root_token=refresh_token,
+                session_id=session_id,
+                user_id=db_user.id
+            )
+
+            refresh_log = TokenLog(
+                fingerprint=fingerprint,
+                token=refresh_token,
+                type="refresh_token",
+                created_at=datetime.now(),
+                root_token=refresh_token,
+                session_id=session_id,
+                user_id=db_user.id
+            )
+
+            session.add(access_log)
+            session.add(refresh_log)
+            session.commit()
+            print(f"Added new tokens for user_id={db_user.id}")
+
+        # Trả về token cho người dùng
+        response_data = {
+            "access": access_token,
+            "refresh": refresh_token
         }
 
-        return jsonable_encoder(response)
+        return jsonable_encoder(response_data)
+
 
     raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
         detail="Invalid Username Or Password"

@@ -12,8 +12,28 @@ import time
 from middleware_request import LogRequestMiddleware
 from hashlib import sha256
 from middleware.fingerprintHTTP_create import fingerprint_middleware
+from apscheduler.schedulers.background import BackgroundScheduler
+from models import delete_expired_tokens
+from contextlib import asynccontextmanager
 
-app=FastAPI()
+
+scheduler = BackgroundScheduler()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Xử lý sự kiện khởi động và tắt ứng dụng bằng Lifespan Event"""
+    # Bắt đầu scheduler
+    scheduler.add_job(delete_expired_tokens, 'interval', minutes=1)  # Chạy mỗi 1 phút
+    scheduler.start()
+    print("Scheduler started!")
+
+    # Đoạn code này chạy khi ứng dụng bắt đầu
+    yield
+
+    # Đoạn code này chạy khi ứng dụng tắt
+    scheduler.shutdown()
+    print("Scheduler shut down!")
+
+app=FastAPI(lifespan=lifespan)
 
 #writes requests to requests.txt
 app.add_middleware(LogRequestMiddleware)
@@ -143,3 +163,5 @@ def get_config():
 
 app.include_router(auth_router)
 app.include_router(order_router)
+
+

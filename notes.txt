@@ -28,3 +28,5 @@ cài đặt tiếp các dependencies (sau khi môi trường chạy trơn tru):
 
 để chạy server dùng lệnh : uvicorn main:app --reload 
 tham số reload dùng để khởi động lại server khi mã nguồn có thay đổi
+
+xử lý tự động xóa với SQLAlchemy và APScheduler : pip install apscheduler
