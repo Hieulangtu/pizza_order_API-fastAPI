@@ -60,9 +60,21 @@ async def fingerprint_middleware(request: Request, call_next):
         return await call_next(request)
     
 
+    fingerprint_hash = generate_fingerprint(request)
+    session_id = request.cookies.get("sessionId")
+
+    if not session_id:
+        raise HTTPException(
+            status_code=401,
+            detail="Session ID is missing, please log in again"
+        )
+
+    # checking if header has Authorization 
+    authorization_header = request.headers.get("authorization")
+    if not authorization_header or not authorization_header.startswith("Bearer "):
+        raise HTTPException(status_code=401, detail="Invalid token")
     
 
-    fingerprint_hash = generate_fingerprint(request)
     #request.state.fingerprint = fingerprint_hash #lưu fingerprint vào request rồi đi tiếp
     token = request.headers.get("authorization").split(" ", 1)[1].strip()
 
@@ -71,10 +83,10 @@ async def fingerprint_middleware(request: Request, call_next):
 
     # check the existance of fingerprint
     if not token_entry:
-        raise HTTPException(status_code=401, detail="Invalid token")
+        raise HTTPException(status_code=401, detail="Invalid token-can't be found")
 
     # checking fingerprint
-    if token_entry.fingerprint == fingerprint_hash:
+    if token_entry.fingerprint == fingerprint_hash and token_entry.session_id == session_id:
         # Fingerprint khớp, cho phép đi tiếp
         return await call_next(request)
     else:
@@ -83,5 +95,5 @@ async def fingerprint_middleware(request: Request, call_next):
         session.commit()
         raise HTTPException(status_code=401, detail="Log in again, please")
 
-    response = await call_next(request)
-    return response
+    # response = await call_next(request)
+    # return response

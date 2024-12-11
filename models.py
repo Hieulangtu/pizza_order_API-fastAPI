@@ -3,7 +3,7 @@ from sqlalchemy import Column,Integer,Boolean,Text,String,ForeignKey,DateTime
 from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship,Session
 from sqlalchemy_utils.types import ChoiceType
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 session=Session(bind=engine)
 
@@ -74,18 +74,19 @@ def delete_expired_tokens():
     """Xóa các token hết hạn dựa trên type và created_at."""
     # Xóa các access token hết hạn (quá 15 phút)
     deleted_access = session.query(TokenLog).filter(
-        TokenLog.type == 'access',
-        TokenLog.created_at < datetime.now() - timedelta(minutes=15)
+        TokenLog.type == 'access_token',
+        TokenLog.created_at < datetime.now(timezone.utc) - timedelta(minutes=15)
     ).delete(synchronize_session=False)
 
 
     # Xóa các refresh token hết hạn (quá 7 ngày)
     deleted_refresh = session.query(TokenLog).filter(
-        TokenLog.type == 'refresh',
-        TokenLog.created_at < datetime.now() - timedelta(days=7)
+        TokenLog.type == 'refresh_token',
+        TokenLog.created_at < datetime.now(timezone.utc) - timedelta(days=7)
     ).delete(synchronize_session=False)
 
     # Lưu thay đổi vào cơ sở dữ liệu
     session.commit()
 
-    print(f"[{datetime.now()}]: delete {deleted_access} access tokens and {deleted_refresh} refresh tokens.")
+    print(f"[{datetime.now(timezone.utc)}]: delete {deleted_access} access tokens and {deleted_refresh} refresh tokens.")
+   
