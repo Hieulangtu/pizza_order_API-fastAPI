@@ -7,15 +7,15 @@ session=Session(bind=engine)
 
 def generate_fingerprint(request: Request) -> str:
     """
-    Tạo fingerprint từ các thông tin trong header của request.
+    Create fingerprint from header in request.
 
     Args:
-        request (Request): Đối tượng request của FastAPI.
+        request (Request): object request handled by FastAPI.
 
     Returns:
-        str: Giá trị hash SHA256 của fingerprint.
+        str: value hash SHA256 of fingerprint.
     """
-    # Lấy thông tin từ headers 
+    # Parameters from request's header 
     user_agent = request.headers.get("user-agent", "")
     accept_language = request.headers.get("accept-language", "")
     accept_encoding= request.headers.get("accept-encoding", "")
@@ -25,44 +25,34 @@ def generate_fingerprint(request: Request) -> str:
     ip_address = request.client.host
 
 
-    # Xử lý sec-ch-ua để lấy thông tin trình duyệt chính
+    # Take information about browser
     sec_ch_ua_list = [item.strip() for item in sec_ch_ua.split(",")]
     important_sec_ch_ua = sec_ch_ua_list[1] if "Chromium" in sec_ch_ua_list[0] else sec_ch_ua_list[0]
 
-    # Tạo fingerprint string và hash
+    # Create request_fingerprint 
     fingerprint_string = f"{important_sec_ch_ua}-{user_agent}-{sec_ch_ua_platform}-{accept_language}-{sec_ch_ua_mobile}-{ip_address}-{accept_encoding}"
     fingerprint_hash = sha256(fingerprint_string.encode()).hexdigest()
 
+    #write to file
     with open("fingerprints_log/fingerprintsV3.txt", "a") as log_file:
         log_file.write(f"{fingerprint_hash}   {important_sec_ch_ua}\n\n")
 
     return fingerprint_hash
 
 async def fingerprint_middleware(request: Request, call_next):
-    # Lấy URL từ request
+    # URL from request
     url_path = request.url.path
 
-    # Trường hợp 1: Nếu URL có đuôi "auth/signup", bỏ qua fingerprint
-    if url_path.endswith("auth/signup"):
-        return await call_next(request)
-
-    if url_path.endswith("auth/login"):
+    # Cases that don't need request_fingerprint (not yet)
+    exclude_paths = ["auth/signup", "auth/login", "openapi.json", "8000", "/docs"]
+    if any(url_path.endswith(path) for path in exclude_paths):
         return await call_next(request)
     
-    if url_path.endswith("openapi.json"):
-        return await call_next(request)
-    
-    if url_path.endswith("8000"):
-        return await call_next(request)
-    
-    
-    if url_path.endswith("/docs"):
-        return await call_next(request)
-    
-
+    #other cases (need request_fingerprint)
     fingerprint_hash = generate_fingerprint(request)
     session_id = request.cookies.get("sessionId")
 
+    #check if request has sessionID in cookie (in case two devices have the same request_fingerprint in Local network)
     if not session_id:
         raise HTTPException(
             status_code=401,
@@ -74,26 +64,25 @@ async def fingerprint_middleware(request: Request, call_next):
     if not authorization_header or not authorization_header.startswith("Bearer "):
         raise HTTPException(status_code=401, detail="Invalid token")
     
-
-    #request.state.fingerprint = fingerprint_hash #lưu fingerprint vào request rồi đi tiếp
+    #take the token
     token = request.headers.get("authorization").split(" ", 1)[1].strip()
 
-    
+    #check if the token has already exist in Table token_logs
     token_entry = session.query(TokenLog).filter(TokenLog.token == token).first()
 
     # check the existance of fingerprint
     if not token_entry:
         raise HTTPException(status_code=401, detail="Invalid token-can't be found")
 
-    # checking fingerprint
+    # checking if the token has the same fingerprint and sessionId
     if token_entry.fingerprint == fingerprint_hash and token_entry.session_id == session_id:
-        # Fingerprint khớp, cho phép đi tiếp
+        # Fingerprint kmatching
         return await call_next(request)
     else:
-        # Fingerprint không khớp, yêu cầu đăng nhập lại và xóa token khỏi cơ sở dữ liệu
+        # Fingerprint doesm't match, response "log in please" and delete token in token_logs table to protect the user
         session.delete(token_entry)
         session.commit()
-        raise HTTPException(status_code=401, detail="Log in again, please")
+        raise HTTPException(status_code=401, detail="Log in , please")
 
     # response = await call_next(request)
     # return response

@@ -101,25 +101,26 @@ async def login(user:LoginModel,request: Request,response: Response, Authorize:A
         access_token=Authorize.create_access_token(subject=db_user.username)
         refresh_token=Authorize.create_refresh_token(subject=db_user.username)
 
-        # Create sessionId (sử dụng UUID)
+        # Create sessionId 
         session_id = str(uuid.uuid4())  
         response.set_cookie(key="sessionId", value=session_id, httponly=True) #store in cookie
 
         fingerprint = generate_fingerprint(request)
 
-        # Kiểm tra user_id trong bảng token_logs
+        #find in the table token_logs to see if the user has logged in before
         existing_tokens = session.query(TokenLog).filter(TokenLog.user_id == db_user.id).all()
 
+        # checkig if user_id has already be used by finding in token_logs
         if existing_tokens:
-            # exist user in token_logs
             matching_tokens = None
             matching_tokens = [
                 token for token in existing_tokens
                 if token.fingerprint == fingerprint 
             ]
 
+            #check if the possible device (using to log in) has already be used before
             if matching_tokens:
-                # Trường hợp 1: Cùng fingerprint và sessionId, ghi đè giá trị cột
+                # case 1: same fingerprint, same user , overwrite data in database
                 for token in matching_tokens:
                     if token.type == "access_token":
                         token.token = access_token
@@ -132,7 +133,7 @@ async def login(user:LoginModel,request: Request,response: Response, Authorize:A
                 session.commit()
                 print(f"Updated tokens for user_id={db_user.id}")
             else:
-                # Trường hợp 2: Không trùng fingerprint hoặc sessionId, xử lý như bình thường
+                # case 2: different request_fingerprint so user log in with other device. Handle normally
                 access_log = TokenLog(
                     fingerprint=fingerprint,
                     token=access_token,
@@ -158,7 +159,7 @@ async def login(user:LoginModel,request: Request,response: Response, Authorize:A
                 session.commit()
                 print(f"Added new tokens for user_id={db_user.id}")
         else:
-            # Trường hợp không có token của user_id trong bảng, thêm mới
+            #If user not found in token_logs
             #first time log in
             access_log = TokenLog(
                 fingerprint=fingerprint,
@@ -185,7 +186,7 @@ async def login(user:LoginModel,request: Request,response: Response, Authorize:A
             session.commit()
             print(f"Added new tokens for user_id={db_user.id}")
 
-        # Trả về token cho người dùng
+        # response
         response_data = {
             "access": access_token,
             "refresh": refresh_token,
@@ -202,39 +203,40 @@ async def login(user:LoginModel,request: Request,response: Response, Authorize:A
 
 
 #refreshing tokens
+# @auth_router.get('/refresh1')
+# async def refresh_token1(Authorize:AuthJWT=Depends()):
+#     """
+#     ## Create a fresh token
+#     This creates a fresh token. It requires an refresh token.
+#     """
 
-@auth_router.get('/refresh1')
-async def refresh_token1(Authorize:AuthJWT=Depends()):
-    """
-    ## Create a fresh token
-    This creates a fresh token. It requires an refresh token.
-    """
 
+#     try:
+#         Authorize.jwt_refresh_token_required()
 
-    try:
-        Authorize.jwt_refresh_token_required()
+#     except Exception as e:
+#         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
+#             detail="Please provide a valid refresh token"
+#         ) 
 
-    except Exception as e:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Please provide a valid refresh token"
-        ) 
-
-    current_user=Authorize.get_jwt_subject()
+#     current_user=Authorize.get_jwt_subject()
 
     
-    access_token=Authorize.create_access_token(subject=current_user)
+#     access_token=Authorize.create_access_token(subject=current_user)
 
-    return jsonable_encoder({"access":access_token})
+#     return jsonable_encoder({"access":access_token})
 
-
+#refreshing tokens
 @auth_router.get('/refresh')
 async def refresh_token(request: Request, response: Response, Authorize: AuthJWT = Depends()):
     """
     ## Refresh Access Token
     This endpoint creates a new access token using a valid refresh token.
     """
+    # (to go to this endpoint. request has already walked through fingerprint checking middleware. So we do not need to check fingerprint again)
+
     try:
-        # Kiểm tra refresh token
+        # checking validation of refresh token
         Authorize.jwt_refresh_token_required()
     except Exception:
         raise HTTPException(
@@ -242,24 +244,24 @@ async def refresh_token(request: Request, response: Response, Authorize: AuthJWT
             detail="Please provide a valid refresh token"
         )
 
-    # Lấy refresh token từ header
+    # Take refresh token from header
     authorization_header = request.headers.get("authorization")
 
     refresh_token = authorization_header.split(" ", 1)[1].strip()
 
-    # Lấy user hiện tại từ token
+    # Take the user
     current_user = Authorize.get_jwt_subject()
     fingerprint = generate_fingerprint(request)
     session_id = request.cookies.get("sessionId")
 
-    # Kiểm tra trong token_logs
+    # Checking if the previous access_token created from refresh_token is still valid
     existing_token = session.query(TokenLog).filter(
         TokenLog.root_token == refresh_token,
         TokenLog.type == "access_token"
     ).first()
 
     if existing_token:
-        # Trường hợp 2: fingerprint và session_id khớp -> ghi đè giá trị access token
+        # if fingerprint  session_id matching -> overwrite new value of access token
         new_access_token = Authorize.create_access_token(subject=current_user)
         existing_token.token = new_access_token
         existing_token.created_at = datetime.now()
@@ -267,7 +269,7 @@ async def refresh_token(request: Request, response: Response, Authorize: AuthJWT
         return jsonable_encoder({"access": new_access_token})
 
     else:
-        # Tạo mới access token và ghi vào bảng token_logs
+        # if the refresh token on the same device hasn't created any valid access token yet. create new one
         new_access_token = Authorize.create_access_token(subject=current_user)
         access_log = TokenLog(
             fingerprint=fingerprint,

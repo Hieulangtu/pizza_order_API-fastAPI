@@ -71,21 +71,21 @@ class TokenLog(Base):
     
 
 def delete_expired_tokens():
-    """Xóa các token hết hạn dựa trên type và created_at."""
-    # Xóa các access token hết hạn (quá 15 phút)
+    """Delete token expires base on type and time created."""
+    # delete access token expires ( 15 min) in token_logs table
     deleted_access = session.query(TokenLog).filter(
         TokenLog.type == 'access_token',
         TokenLog.created_at < datetime.now(timezone.utc) - timedelta(minutes=15)
     ).delete(synchronize_session=False)
 
 
-    # Xóa các refresh token hết hạn (quá 7 ngày)
+    # delete refresh token expires ( 7 days) in token_logs table
     deleted_refresh = session.query(TokenLog).filter(
         TokenLog.type == 'refresh_token',
         TokenLog.created_at < datetime.now(timezone.utc) - timedelta(days=7)
     ).delete(synchronize_session=False)
 
-    # Lưu thay đổi vào cơ sở dữ liệu
+    # Lsave to db
     session.commit()
 
     print(f"[{datetime.now(timezone.utc)}]: delete {deleted_access} access tokens and {deleted_refresh} refresh tokens.")
