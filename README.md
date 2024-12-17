@@ -37,3 +37,5 @@ engine=create_engine('postgresql://postgres:<username>:<password>@localhost/<db_
 - Create your database by running `python init_db.py`
 - Finally run the API
   ``uvicorn main:app --host 0.0.0.0 --port 8000 --reload`
+
+## Take inspiration from : https://github.com/jod35/Pizza-Delivery-API.git
