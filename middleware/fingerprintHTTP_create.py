@@ -52,12 +52,7 @@ async def fingerprint_middleware(request: Request, call_next):
     fingerprint_hash = generate_fingerprint(request)
     session_id = request.cookies.get("sessionId")
 
-    #check if request has sessionID in cookie (in case two devices have the same request_fingerprint in Local network)
-    if not session_id:
-        raise HTTPException(
-            status_code=401,
-            detail="Session ID is missing, please log in again"
-        )
+    
 
     # checking if header has Authorization 
     authorization_header = request.headers.get("authorization")
@@ -76,7 +71,15 @@ async def fingerprint_middleware(request: Request, call_next):
 
     # checking if the token has the same fingerprint and sessionId
     if token_entry.fingerprint == fingerprint_hash and token_entry.session_id == session_id:
-        # Fingerprint kmatching
+        #check if request has sessionID in cookie (in case two devices have the same request_fingerprint in Local network)
+        # if not session_id:
+        #   session.delete(token_entry)
+        #   session.commit()
+        #   raise HTTPException(
+        #     status_code=401,
+        #     detail="Session ID is missing, please log in again"
+        #   )
+        # Fingerprint matching
         return await call_next(request)
     else:
         # Fingerprint doesm't match, response "log in please" and delete token in token_logs table to protect the user

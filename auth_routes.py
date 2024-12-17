@@ -10,6 +10,7 @@ from fastapi.encoders import jsonable_encoder
 from middleware.fingerprintHTTP_create import generate_fingerprint
 from datetime import datetime
 import uuid
+from fastapi.responses import JSONResponse
 
 auth_router = APIRouter(
     prefix='/auth',
@@ -196,8 +197,12 @@ async def login(user:LoginModel,request: Request,response: Response, Authorize:A
         return jsonable_encoder(response_data)
 
 
-    raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
-        detail="Invalid Username Or Password"
+    # raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+    #     detail="Invalid Username Or Password"
+    # )
+    raise JSONResponse(
+       status_code=status.HTTP_401_UNAUTHORIZED,
+       content={"message": "log in again"}
     )
 
 
