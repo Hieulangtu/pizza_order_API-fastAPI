@@ -1,9 +1,9 @@
 from hashlib import sha256
 from fastapi import Request, Depends, HTTPException
 from models import TokenLog
-from database import Session,engine
+from database import SessionLocal
 
-session=Session(bind=engine)
+#session=Session(bind=engine)
 
 def generate_fingerprint(request: Request) -> str:
     """
@@ -62,30 +62,47 @@ async def fingerprint_middleware(request: Request, call_next):
     #take the token
     token = request.headers.get("authorization").split(" ", 1)[1].strip()
 
-    #check if the token has already exist in Table token_logs
-    token_entry = session.query(TokenLog).filter(TokenLog.token == token).first()
+    # create new session for each request middleware
+    with SessionLocal() as db:
+        token_entry = db.query(TokenLog).filter(TokenLog.token == token).first()
+        if not token_entry:
+            raise HTTPException(status_code=401, detail="Invalid token-can't be found")
 
-    # check the existance of fingerprint
-    if not token_entry:
-        raise HTTPException(status_code=401, detail="Invalid token-can't be found")
+        if token_entry.fingerprint == fingerprint_hash and token_entry.session_id == session_id:
+            #check if request has sessionID in cookie (in case two devices have the same request_fingerprint in Local network)
+            # OK
+            response = await call_next(request)
+            return response
+        else:
+            # fingerprint / sessionId doesn't match=> xoá token
+            db.delete(token_entry)
+            db.commit()
+            raise HTTPException(status_code=401, detail="Log in please")
 
-    # checking if the token has the same fingerprint and sessionId
-    if token_entry.fingerprint == fingerprint_hash and token_entry.session_id == session_id:
-        #check if request has sessionID in cookie (in case two devices have the same request_fingerprint in Local network)
-        # if not session_id:
-        #   session.delete(token_entry)
-        #   session.commit()
-        #   raise HTTPException(
-        #     status_code=401,
-        #     detail="Session ID is missing, please log in again"
-        #   )
-        # Fingerprint matching
-        return await call_next(request)
-    else:
-        # Fingerprint doesm't match, response "log in please" and delete token in token_logs table to protect the user
-        session.delete(token_entry)
-        session.commit()
-        raise HTTPException(status_code=401, detail="Log in , please")
+    # #check if the token has already exist in Table token_logs
+    # token_entry = session.query(TokenLog).filter(TokenLog.token == token).first()
+
+    # # check the existance of fingerprint
+    # if not token_entry:
+    #     raise HTTPException(status_code=401, detail="Invalid token-can't be found")
+
+    # # checking if the token has the same fingerprint and sessionId
+    # if token_entry.fingerprint == fingerprint_hash and token_entry.session_id == session_id:
+    #     #check if request has sessionID in cookie (in case two devices have the same request_fingerprint in Local network)
+    #     # if not session_id:
+    #     #   session.delete(token_entry)
+    #     #   session.commit()
+    #     #   raise HTTPException(
+    #     #     status_code=401,
+    #     #     detail="Session ID is missing, please log in again"
+    #     #   )
+    #     # Fingerprint matching
+    #     return await call_next(request)
+    # else:
+    #     # Fingerprint doesm't match, response "log in please" and delete token in token_logs table to protect the user
+    #     session.delete(token_entry)
+    #     session.commit()
+    #     raise HTTPException(status_code=401, detail="Log in , please")
 
     # response = await call_next(request)
     # return response

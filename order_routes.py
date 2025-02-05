@@ -3,15 +3,16 @@ from fastapi.exceptions import HTTPException
 from fastapi_jwt_auth import AuthJWT
 from models import User,Order
 from schemas import OrderModel,OrderStatusModel
-from database import Session , engine
+from database import get_db
 from fastapi.encoders import jsonable_encoder
+from sqlalchemy.orm import Session
 
 order_router=APIRouter(
     prefix="/orders",
     tags=['orders']
 )
 
-session=Session(bind=engine)
+#session=Session(bind=engine)
 
 @order_router.get('/')
 async def hello(Authorize:AuthJWT=Depends()):
@@ -33,7 +34,7 @@ async def hello(Authorize:AuthJWT=Depends()):
 
 
 @order_router.post('/order',status_code=status.HTTP_201_CREATED)
-async def place_an_order(order:OrderModel,Authorize:AuthJWT=Depends()):
+async def place_an_order(order:OrderModel,Authorize:AuthJWT=Depends(), db: Session = Depends(get_db)):
     """
         ## Placing an Order
         This requires the following
@@ -54,7 +55,7 @@ async def place_an_order(order:OrderModel,Authorize:AuthJWT=Depends()):
 
     current_user=Authorize.get_jwt_subject()
 
-    user=session.query(User).filter(User.username==current_user).first()
+    user=db.query(User).filter(User.username==current_user).first()
 
 
     new_order=Order(
@@ -64,9 +65,9 @@ async def place_an_order(order:OrderModel,Authorize:AuthJWT=Depends()):
 
     new_order.user=user
 
-    session.add(new_order)
+    db.add(new_order)
 
-    session.commit()
+    db.commit()
 
 
     response={
@@ -82,7 +83,7 @@ async def place_an_order(order:OrderModel,Authorize:AuthJWT=Depends()):
 
     
 @order_router.get('/orders')
-async def list_all_orders(Authorize:AuthJWT=Depends()):
+async def list_all_orders(Authorize:AuthJWT=Depends(), db: Session = Depends(get_db)):
     """
         ## List all orders
         This lists all  orders made. It can be accessed by superusers
@@ -100,10 +101,10 @@ async def list_all_orders(Authorize:AuthJWT=Depends()):
 
     current_user=Authorize.get_jwt_subject()
 
-    user=session.query(User).filter(User.username==current_user).first()
+    user=db.query(User).filter(User.username==current_user).first()
 
     if user.is_staff:
-        orders=session.query(Order).all()
+        orders=db.query(Order).all()
 
         return jsonable_encoder(orders)
 
@@ -113,7 +114,7 @@ async def list_all_orders(Authorize:AuthJWT=Depends()):
 
 
 @order_router.get('/orders/{id}')
-async def get_order_by_id(id:int,Authorize:AuthJWT=Depends()):
+async def get_order_by_id(id:int,Authorize:AuthJWT=Depends(), db: Session = Depends(get_db)):
     """
         ## Get an order by its ID
         This gets an order by its ID and is only accessed by a superuser
@@ -132,10 +133,10 @@ async def get_order_by_id(id:int,Authorize:AuthJWT=Depends()):
 
     user=Authorize.get_jwt_subject()
 
-    current_user=session.query(User).filter(User.username==user).first()
+    current_user=db.query(User).filter(User.username==user).first()
 
     if current_user.is_staff:
-        order=session.query(Order).filter(Order.id==id).first()
+        order=db.query(Order).filter(Order.id==id).first()
 
         return jsonable_encoder(order)
 
@@ -146,7 +147,7 @@ async def get_order_by_id(id:int,Authorize:AuthJWT=Depends()):
 
     
 @order_router.get('/user/orders')
-async def get_user_orders(Authorize:AuthJWT=Depends()):
+async def get_user_orders(Authorize:AuthJWT=Depends(), db: Session = Depends(get_db)):
     """
         ## Get a current user's orders
         This lists the orders made by the currently logged in users
@@ -165,13 +166,13 @@ async def get_user_orders(Authorize:AuthJWT=Depends()):
     user=Authorize.get_jwt_subject()
 
 
-    current_user=session.query(User).filter(User.username==user).first()
+    current_user=db.query(User).filter(User.username==user).first()
 
     return jsonable_encoder(current_user.orders)
 
 
 @order_router.get('/user/order/{id}/')
-async def get_specific_order(id:int,Authorize:AuthJWT=Depends()):
+async def get_specific_order(id:int,Authorize:AuthJWT=Depends(), db: Session = Depends(get_db)):
     """
         ## Get a specific order by the currently logged in user
         This returns an order by ID for the currently logged in user
@@ -188,7 +189,7 @@ async def get_specific_order(id:int,Authorize:AuthJWT=Depends()):
 
     subject=Authorize.get_jwt_subject()
 
-    current_user=session.query(User).filter(User.username==subject).first()
+    current_user=db.query(User).filter(User.username==subject).first()
 
     orders=current_user.orders
 
@@ -202,7 +203,7 @@ async def get_specific_order(id:int,Authorize:AuthJWT=Depends()):
 
 
 @order_router.put('/order/update/{id}/')
-async def update_order(id:int,order:OrderModel,Authorize:AuthJWT=Depends()):
+async def update_order(id:int,order:OrderModel,Authorize:AuthJWT=Depends(), db: Session = Depends(get_db)):
     """
         ## Updating an order
         This udates an order and requires the following fields
@@ -217,12 +218,12 @@ async def update_order(id:int,order:OrderModel,Authorize:AuthJWT=Depends()):
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,detail="Invalid Token")
 
-    order_to_update=session.query(Order).filter(Order.id==id).first()
+    order_to_update=db.query(Order).filter(Order.id==id).first()
 
     order_to_update.quantity=order.quantity
     order_to_update.pizza_size=order.pizza_size
 
-    session.commit()
+    db.commit()
 
 
     response={
@@ -238,7 +239,7 @@ async def update_order(id:int,order:OrderModel,Authorize:AuthJWT=Depends()):
 @order_router.patch('/order/update/{id}/')
 async def update_order_status(id:int,
         order:OrderStatusModel,
-        Authorize:AuthJWT=Depends()):
+        Authorize:AuthJWT=Depends(), db: Session = Depends(get_db)):
 
 
     """
@@ -253,14 +254,14 @@ async def update_order_status(id:int,
 
     username=Authorize.get_jwt_subject()
 
-    current_user=session.query(User).filter(User.username==username).first()
+    current_user=db.query(User).filter(User.username==username).first()
 
     if current_user.is_staff:
-        order_to_update=session.query(Order).filter(Order.id==id).first()
+        order_to_update=db.query(Order).filter(Order.id==id).first()
 
         order_to_update.order_status=order.order_status
 
-        session.commit()
+        db.commit()
 
         response={
                 "id":order_to_update.id,
@@ -273,7 +274,7 @@ async def update_order_status(id:int,
 
 
 @order_router.delete('/order/delete/{id}/',status_code=status.HTTP_204_NO_CONTENT)
-async def delete_an_order(id:int,Authorize:AuthJWT=Depends()):
+async def delete_an_order(id:int,Authorize:AuthJWT=Depends(), db: Session = Depends(get_db)):
 
     """
         ## Delete an Order
@@ -287,10 +288,10 @@ async def delete_an_order(id:int,Authorize:AuthJWT=Depends()):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,detail="Invalid Token")
 
 
-    order_to_delete=session.query(Order).filter(Order.id==id).first()
+    order_to_delete=db.query(Order).filter(Order.id==id).first()
 
-    session.delete(order_to_delete)
+    db.delete(order_to_delete)
 
-    session.commit()
+    db.commit()
 
     return order_to_delete

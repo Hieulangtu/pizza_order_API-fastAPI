@@ -1,8 +1,17 @@
 from database import engine,Base
 from models import User,Order,TokenLog
+import asyncio
+
+async def init_db():
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)  # run create_all() trong async
+
+if __name__ == "__main__":
+    asyncio.run(init_db())
+
+#Base.metadata.create_all(bind=engine)
 
 
-Base.metadata.create_all(bind=engine)
 
 # File này thường được sử dụng để khởi tạo cơ sở dữ liệu khi bạn thiết lập 
 # ứng dụng lần đầu hoặc khi bạn cần tạo lại cấu trúc bảng. 

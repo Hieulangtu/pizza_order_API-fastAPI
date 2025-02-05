@@ -1,6 +1,6 @@
 from fastapi import APIRouter, status, Depends, Request, Response
 from fastapi.exceptions import HTTPException
-from database import Session,engine
+from database import get_db
 from schemas import SignUpModel,LoginModel
 from models import User, TokenLog
 from fastapi.exceptions import HTTPException
@@ -11,13 +11,14 @@ from middleware.fingerprintHTTP_create import generate_fingerprint
 from datetime import datetime
 import uuid
 from fastapi.responses import JSONResponse
+from sqlalchemy.orm import Session
 
 auth_router = APIRouter(
     prefix='/auth',
     tags=['auth']
 )
 
-session=Session(bind=engine)
+#session=Session(bind=engine)
 
 @auth_router.get('/')
 async def hello(Authorize:AuthJWT=Depends()):
@@ -37,7 +38,7 @@ async def hello(Authorize:AuthJWT=Depends()):
     return {"message":"Hello World"}
 
 @auth_router.post('/signup',status_code=status.HTTP_201_CREATED)
-async def signup(user:SignUpModel):
+async def signup(user:SignUpModel, db: Session = Depends(get_db)):
     """
         ## Create a user
         This requires the following
@@ -53,14 +54,14 @@ async def signup(user:SignUpModel):
     """
 
 
-    db_email=session.query(User).filter(User.email==user.email).first()
+    db_email=db.query(User).filter(User.email==user.email).first()
 
     if db_email is not None:
         return HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
             detail="User with the email already exists"
         )
 
-    db_username=session.query(User).filter(User.username==user.username).first()
+    db_username=db.query(User).filter(User.username==user.username).first()
 
     if db_username is not None:
         return HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
@@ -75,9 +76,9 @@ async def signup(user:SignUpModel):
         is_staff=user.is_staff
     )
 
-    session.add(new_user)
+    db.add(new_user)
 
-    session.commit()
+    db.commit()
 
     return new_user
 
@@ -86,7 +87,7 @@ async def signup(user:SignUpModel):
 #login route
 
 @auth_router.post('/login',status_code=200)
-async def login(user:LoginModel,request: Request,response: Response, Authorize:AuthJWT=Depends()):
+async def login(user:LoginModel,request: Request,response: Response, Authorize:AuthJWT=Depends(), db: Session = Depends(get_db)):
     """     
         ## Login a user
         This requires
@@ -96,7 +97,7 @@ async def login(user:LoginModel,request: Request,response: Response, Authorize:A
             ```
         and returns a token pair `access` and `refresh`
     """
-    db_user=session.query(User).filter(User.username==user.username).first()
+    db_user=db.query(User).filter(User.username==user.username).first()
 
     if db_user and check_password_hash(db_user.password, user.password):
         access_token=Authorize.create_access_token(subject=db_user.username)
@@ -109,7 +110,7 @@ async def login(user:LoginModel,request: Request,response: Response, Authorize:A
         fingerprint = generate_fingerprint(request)
 
         #find in the table token_logs to see if the user has logged in before
-        existing_tokens = session.query(TokenLog).filter(TokenLog.user_id == db_user.id).all()
+        existing_tokens = db.query(TokenLog).filter(TokenLog.user_id == db_user.id).all()
 
         # checkig if user_id has already be used by finding in token_logs
         if existing_tokens:
@@ -131,7 +132,7 @@ async def login(user:LoginModel,request: Request,response: Response, Authorize:A
                     token.session_id = session_id
                     token.root_token=refresh_token
                 
-                session.commit()
+                db.commit()
                 print(f"Updated tokens for user_id={db_user.id}")
             else:
                 # case 2: different request_fingerprint so user log in with other device. Handle normally
@@ -155,9 +156,9 @@ async def login(user:LoginModel,request: Request,response: Response, Authorize:A
                     user_id=db_user.id
                 )
 
-                session.add(access_log)
-                session.add(refresh_log)
-                session.commit()
+                db.add(access_log)
+                db.add(refresh_log)
+                db.commit()
                 print(f"Added new tokens for user_id={db_user.id}")
         else:
             #If user not found in token_logs
@@ -182,9 +183,9 @@ async def login(user:LoginModel,request: Request,response: Response, Authorize:A
                 user_id=db_user.id
             )
 
-            session.add(access_log)
-            session.add(refresh_log)
-            session.commit()
+            db.add(access_log)
+            db.add(refresh_log)
+            db.commit()
             print(f"Added new tokens for user_id={db_user.id}")
 
         # response
@@ -233,7 +234,7 @@ async def login(user:LoginModel,request: Request,response: Response, Authorize:A
 
 #refreshing tokens
 @auth_router.get('/refresh')
-async def refresh_token(request: Request, response: Response, Authorize: AuthJWT = Depends()):
+async def refresh_token(request: Request, response: Response, Authorize: AuthJWT = Depends(),db: Session = Depends(get_db)):
     """
     ## Refresh Access Token
     This endpoint creates a new access token using a valid refresh token.
@@ -260,17 +261,17 @@ async def refresh_token(request: Request, response: Response, Authorize: AuthJWT
     session_id = request.cookies.get("sessionId")
 
     # Checking if the previous access_token created from refresh_token is still valid
-    existing_token = session.query(TokenLog).filter(
+    existing_token = db.query(TokenLog).filter(
         TokenLog.root_token == refresh_token,
         TokenLog.type == "access_token"
     ).first()
 
     if existing_token:
-        # if fingerprint  session_id matching -> overwrite new value of access token
+        # if fingerprint  db_id matching -> overwrite new value of access token
         new_access_token = Authorize.create_access_token(subject=current_user)
         existing_token.token = new_access_token
         existing_token.created_at = datetime.now()
-        session.commit()
+        db.commit()
         return jsonable_encoder({"access": new_access_token})
 
     else:
@@ -283,8 +284,8 @@ async def refresh_token(request: Request, response: Response, Authorize: AuthJWT
             created_at=datetime.now(),
             root_token=refresh_token,
             session_id=session_id,
-            user_id=session.query(User).filter(User.username == current_user).first().id
+            user_id=db.query(User).filter(User.username == current_user).first().id
         )
-        session.add(access_log)
-        session.commit()
+        db.add(access_log)
+        db.commit()
         return jsonable_encoder({"access": new_access_token})

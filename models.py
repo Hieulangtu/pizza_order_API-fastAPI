@@ -1,11 +1,11 @@
-from database import Base, Session,engine
+from database import Base, SessionLocal
 from sqlalchemy import Column,Integer,Boolean,Text,String,ForeignKey,DateTime
 from sqlalchemy.sql import func
-from sqlalchemy.orm import relationship,Session
+from sqlalchemy.orm import relationship
 from sqlalchemy_utils.types import ChoiceType
 from datetime import datetime, timedelta, timezone
 
-session=Session(bind=engine)
+#session=Session(bind=engine)
 
 class User(Base):
     __tablename__='user'
@@ -72,21 +72,23 @@ class TokenLog(Base):
 
 def delete_expired_tokens():
     """Delete token expires base on type and time created."""
-    # delete access token expires ( 15 min) in token_logs table
-    deleted_access = session.query(TokenLog).filter(
-        TokenLog.type == 'access_token',
-        TokenLog.created_at < datetime.now(timezone.utc) - timedelta(minutes=15)
-    ).delete(synchronize_session=False)
+    # Tạo session riêng cho hàm này (mỗi lần hàm chạy)
+    with SessionLocal() as db:
+        # delete access token expires ( 15 min) in token_logs table
+        deleted_access = db.query(TokenLog).filter(
+           TokenLog.type == 'access_token',
+           TokenLog.created_at < datetime.now(timezone.utc) - timedelta(minutes=15)
+        ).delete(synchronize_session=False)
 
 
-    # delete refresh token expires ( 7 days) in token_logs table
-    deleted_refresh = session.query(TokenLog).filter(
-        TokenLog.type == 'refresh_token',
-        TokenLog.created_at < datetime.now(timezone.utc) - timedelta(days=7)
-    ).delete(synchronize_session=False)
+        # delete refresh token expires ( 7 days) in token_logs table
+        deleted_refresh = db.query(TokenLog).filter(
+           TokenLog.type == 'refresh_token',
+           TokenLog.created_at < datetime.now(timezone.utc) - timedelta(days=7)
+        ).delete(synchronize_session=False)
 
-    # Lsave to db
-    session.commit()
+        #save to db
+        db.commit()
 
     print(f"[{datetime.now(timezone.utc)}]: delete {deleted_access} access tokens and {deleted_refresh} refresh tokens.")
    

@@ -1,25 +1,53 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base,sessionmaker
-
-
+from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
+import asyncio
 
 # Tạo một engine - một đối tượng quản lý kết nối với cơ sở dữ liệu.
-engine=create_engine('postgresql://postgres:1905@localhost/pizza_delivery',
-    echo=True
-)
+# engine=create_engine('postgresql://postgres:1905@localhost/pizza_delivery',
+#     echo=True
+# )
 
 
-try:
-    # Thử kết nối
-    with engine.connect() as connection:
-        print("connect successfully to database !")
-except Exception as e:
-    print("can not connect to database")
-    print(e)
+DATABASE_URL = "postgresql+asyncpg://postgres:1905@localhost/pizza_delivery"
+# Create engine async
+engine = create_async_engine(DATABASE_URL, echo=True)
 
+# Base ORM model
 Base=declarative_base()
 
-Session=sessionmaker()
+# Create sessionmaker async
+SessionLocal = sessionmaker(
+    bind=engine,
+    expire_on_commit=False,
+    class_=AsyncSession,
+    autoflush=False,
+    autocommit=False
+)
+
+# Dependency create session async per request
+async def get_db():
+    """
+    Each request takes 1 session async, when request finishes, it closes.
+    """
+    async with SessionLocal() as db:
+        try:
+            yield db
+        finally:
+            await db.close()
+
+
+# try:
+#     # Thử kết nối
+#     with engine.connect() as connection:
+#         print("connect successfully to database !")
+# except Exception as e:
+#     print("can not connect to database")
+#     print(e)
+
+
+
+#Session=sessionmaker()
 
 
 # hàm create_engine từ SQLAlchemy, cho phép bạn tạo kết nối tới cơ sở dữ liệu
