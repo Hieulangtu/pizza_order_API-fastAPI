@@ -13,11 +13,14 @@ from middleware_request import LogRequestMiddleware
 from hashlib import sha256
 from middleware.fingerprintHTTP_create import fingerprint_middleware
 from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from models import delete_expired_tokens
 from contextlib import asynccontextmanager
 
 
-scheduler = BackgroundScheduler()
+#scheduler = BackgroundScheduler()
+scheduler = AsyncIOScheduler()
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Handle start and end by Lifespan Event"""

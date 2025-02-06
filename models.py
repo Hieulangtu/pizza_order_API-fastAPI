@@ -1,5 +1,5 @@
 from database import Base, SessionLocal
-from sqlalchemy import Column,Integer,Boolean,Text,String,ForeignKey,DateTime
+from sqlalchemy import Column,Integer,Boolean,Text,String,ForeignKey,DateTime,delete
 from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
 from sqlalchemy_utils.types import ChoiceType
@@ -70,25 +70,41 @@ class TokenLog(Base):
         return f"<TokenLog(id={self.id}, fingerprint={self.fingerprint[:8]}...)>"
     
 
-def delete_expired_tokens():
+async def delete_expired_tokens():
     """Delete token expires base on type and time created."""
+    now_utc = datetime.now(timezone.utc)
     # Tạo session riêng cho hàm này (mỗi lần hàm chạy)
-    with SessionLocal() as db:
+    async with SessionLocal() as db:
         # delete access token expires ( 15 min) in token_logs table
-        deleted_access = db.query(TokenLog).filter(
-           TokenLog.type == 'access_token',
-           TokenLog.created_at < datetime.now(timezone.utc) - timedelta(minutes=15)
-        ).delete(synchronize_session=False)
+        # deleted_access = db.query(TokenLog).filter(
+        #    TokenLog.type == 'access_token',
+        #    TokenLog.created_at < datetime.now(timezone.utc) - timedelta(minutes=15)
+        # ).delete(synchronize_session=False)
+
 
 
         # delete refresh token expires ( 7 days) in token_logs table
-        deleted_refresh = db.query(TokenLog).filter(
-           TokenLog.type == 'refresh_token',
-           TokenLog.created_at < datetime.now(timezone.utc) - timedelta(days=7)
-        ).delete(synchronize_session=False)
+        # deleted_refresh = db.query(TokenLog).filter(
+        #    TokenLog.type == 'refresh_token',
+        #    TokenLog.created_at < datetime.now(timezone.utc) - timedelta(days=7)
+        # ).delete(synchronize_session=False)
+        stmt_access = delete(TokenLog).where(
+            (TokenLog.type == 'access_token') &
+            (TokenLog.created_at < now_utc - timedelta(minutes=15))
+        )
+        result_access = await db.execute(stmt_access)
+
+        stmt_refresh = delete(TokenLog).where(
+            (TokenLog.type == 'refresh_token') &
+            (TokenLog.created_at < now_utc - timedelta(days=7))
+        )
+        result_refresh = await db.execute(stmt_refresh)
 
         #save to db
-        db.commit()
+        await db.commit()
 
-    print(f"[{datetime.now(timezone.utc)}]: delete {deleted_access} access tokens and {deleted_refresh} refresh tokens.")
+
+
+    print(f"[{now_utc}]: Deleted {result_access.rowcount} access token(s), {result_refresh.rowcount} refresh token(s).")
+
    

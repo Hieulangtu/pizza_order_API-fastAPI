@@ -12,6 +12,7 @@ from datetime import datetime
 import uuid
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
+from sqlalchemy import select
 
 auth_router = APIRouter(
     prefix='/auth',
@@ -54,17 +55,23 @@ async def signup(user:SignUpModel, db: Session = Depends(get_db)):
     """
 
 
-    db_email=db.query(User).filter(User.email==user.email).first()
+    #db_email=db.query(User).filter(User.email==user.email).first()
+    stmt = select(User).where(User.email == user.email)
+    result = await db.execute(stmt)
+    db_email = result.scalars().first()
 
     if db_email is not None:
-        return HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
             detail="User with the email already exists"
         )
 
-    db_username=db.query(User).filter(User.username==user.username).first()
-
+    #db_username=db.query(User).filter(User.username==user.username).first()
+    stmt = select(User).where(User.username == user.username)
+    result = await db.execute(stmt)
+    db_username = result.scalars().first()
+    
     if db_username is not None:
-        return HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
             detail="User with the username already exists"
         )
 
@@ -78,7 +85,7 @@ async def signup(user:SignUpModel, db: Session = Depends(get_db)):
 
     db.add(new_user)
 
-    db.commit()
+    await db.commit()
 
     return new_user
 
@@ -97,7 +104,10 @@ async def login(user:LoginModel,request: Request,response: Response, Authorize:A
             ```
         and returns a token pair `access` and `refresh`
     """
-    db_user=db.query(User).filter(User.username==user.username).first()
+    #db_user=db.query(User).filter(User.username==user.username).first()
+    stmt = select(User).where(User.username == user.username)
+    result = await db.execute(stmt)
+    db_user = result.scalars().first()
 
     if db_user and check_password_hash(db_user.password, user.password):
         access_token=Authorize.create_access_token(subject=db_user.username)
@@ -110,7 +120,10 @@ async def login(user:LoginModel,request: Request,response: Response, Authorize:A
         fingerprint = generate_fingerprint(request)
 
         #find in the table token_logs to see if the user has logged in before
-        existing_tokens = db.query(TokenLog).filter(TokenLog.user_id == db_user.id).all()
+        #existing_tokens = db.query(TokenLog).filter(TokenLog.user_id == db_user.id).all()
+        stmt = select(TokenLog).where(TokenLog.user_id == db_user.id)
+        result = await db.execute(stmt)
+        existing_tokens = result.scalars().all()
 
         # checkig if user_id has already be used by finding in token_logs
         if existing_tokens:
@@ -132,7 +145,7 @@ async def login(user:LoginModel,request: Request,response: Response, Authorize:A
                     token.session_id = session_id
                     token.root_token=refresh_token
                 
-                db.commit()
+                await db.commit()
                 print(f"Updated tokens for user_id={db_user.id}")
             else:
                 # case 2: different request_fingerprint so user log in with other device. Handle normally
@@ -158,7 +171,7 @@ async def login(user:LoginModel,request: Request,response: Response, Authorize:A
 
                 db.add(access_log)
                 db.add(refresh_log)
-                db.commit()
+                await db.commit()
                 print(f"Added new tokens for user_id={db_user.id}")
         else:
             #If user not found in token_logs
@@ -185,7 +198,7 @@ async def login(user:LoginModel,request: Request,response: Response, Authorize:A
 
             db.add(access_log)
             db.add(refresh_log)
-            db.commit()
+            await db.commit()
             print(f"Added new tokens for user_id={db_user.id}")
 
         # response
@@ -261,22 +274,28 @@ async def refresh_token(request: Request, response: Response, Authorize: AuthJWT
     session_id = request.cookies.get("sessionId")
 
     # Checking if the previous access_token created from refresh_token is still valid
-    existing_token = db.query(TokenLog).filter(
-        TokenLog.root_token == refresh_token,
-        TokenLog.type == "access_token"
-    ).first()
+    # existing_token = db.query(TokenLog).filter(
+    #     TokenLog.root_token == refresh_token,
+    #     TokenLog.type == "access_token"
+    # ).first()
+    stmt = select(TokenLog).where((TokenLog.root_token == refresh_token) & (TokenLog.type == "access_token"))
+    result = await db.execute(stmt)
+    existing_token = result.scalars().first()
 
     if existing_token:
         # if fingerprint  db_id matching -> overwrite new value of access token
         new_access_token = Authorize.create_access_token(subject=current_user)
         existing_token.token = new_access_token
         existing_token.created_at = datetime.now()
-        db.commit()
+        await db.commit()
         return jsonable_encoder({"access": new_access_token})
 
     else:
         # if the refresh token on the same device hasn't created any valid access token yet. create new one
         new_access_token = Authorize.create_access_token(subject=current_user)
+        stmt = select(User).where(User.username == current_user)
+        result = await db.execute(stmt)
+        user_obj = result.scalars().first()
         access_log = TokenLog(
             fingerprint=fingerprint,
             token=new_access_token,
@@ -284,8 +303,9 @@ async def refresh_token(request: Request, response: Response, Authorize: AuthJWT
             created_at=datetime.now(),
             root_token=refresh_token,
             session_id=session_id,
-            user_id=db.query(User).filter(User.username == current_user).first().id
+            # user_id=db.query(User).filter(User.username == current_user).first().id
+            user_id = user_obj.id
         )
         db.add(access_log)
-        db.commit()
+        await db.commit()
         return jsonable_encoder({"access": new_access_token})
