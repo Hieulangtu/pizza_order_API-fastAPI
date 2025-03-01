@@ -30,7 +30,7 @@ async def get_db():
     """
     Each request takes 1 session async, when request finishes, it closes.
     """
-    async with SessionLocal() as db:
+    async with SessionLocal() as db:  # Tạo một phiên mới từ sessionmaker mỗi lần gọi
         try:
             yield db
         finally:

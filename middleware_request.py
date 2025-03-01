@@ -29,7 +29,7 @@ class LogRequestMiddleware(BaseHTTPMiddleware):
         log_data["body"] = body.decode("utf-8") if body else "No body"
 
         # Ghi toàn bộ log vào file requests.txt
-        with open("requests_log/requestsV3.txt", "a") as log_file:
+        with open("requests_log/requestsV4.txt", "a") as log_file:
             log_file.write(json.dumps(log_data, indent=4) + "\n\n")
 
         # Tiếp tục xử lý request và trả về response
