@@ -6,6 +6,7 @@ from schemas import OrderModel,OrderStatusModel
 from database import get_db
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
+from sqlalchemy import select
 
 order_router=APIRouter(
     prefix="/orders",
@@ -55,7 +56,12 @@ async def place_an_order(order:OrderModel,Authorize:AuthJWT=Depends(), db: Sessi
 
     current_user=Authorize.get_jwt_subject()
 
-    user=db.query(User).filter(User.username==current_user).first()
+    #user=db.query(User).filter(User.username==current_user).first()
+    stmt = select(User).where(User.username == current_user)
+    result = await db.execute(stmt)
+    user = result.scalars().first()
+    if not user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
 
 
     new_order=Order(
@@ -67,7 +73,7 @@ async def place_an_order(order:OrderModel,Authorize:AuthJWT=Depends(), db: Sessi
 
     db.add(new_order)
 
-    db.commit()
+    await db.commit()
 
 
     response={
@@ -101,10 +107,16 @@ async def list_all_orders(Authorize:AuthJWT=Depends(), db: Session = Depends(get
 
     current_user=Authorize.get_jwt_subject()
 
-    user=db.query(User).filter(User.username==current_user).first()
+    #user=db.query(User).filter(User.username==current_user).first()
+    stmt = select(User).where(User.username == current_user)
+    result = await db.execute(stmt)
+    user = result.scalars().first()
 
     if user.is_staff:
-        orders=db.query(Order).all()
+        #orders=db.query(Order).all()
+        stmt_orders = select(Order)
+        result_orders = await db.execute(stmt_orders)
+        orders = result_orders.scalars().all()
 
         return jsonable_encoder(orders)
 
@@ -133,12 +145,21 @@ async def get_order_by_id(id:int,Authorize:AuthJWT=Depends(), db: Session = Depe
 
     user=Authorize.get_jwt_subject()
 
-    current_user=db.query(User).filter(User.username==user).first()
+    #current_user=db.query(User).filter(User.username==user).first()
+    stmt = select(User).where(User.username == user)
+    result = await db.execute(stmt)
+    current_user = result.scalars().first()
 
     if current_user.is_staff:
-        order=db.query(Order).filter(Order.id==id).first()
+        #order=db.query(Order).filter(Order.id==id).first()
+        stmt_order = select(Order).where(Order.id == id)
+        result_order = await db.execute(stmt_order)
+        order = result_order.scalars().first()
 
-        return jsonable_encoder(order)
+        if order:
+            return jsonable_encoder(order)
+        else:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Order not found")
 
     raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -165,10 +186,21 @@ async def get_user_orders(Authorize:AuthJWT=Depends(), db: Session = Depends(get
 
     user=Authorize.get_jwt_subject()
 
+    #current_user=db.query(User).filter(User.username==user).first()
+    stmt = select(User).where(User.username == user)
+    result = await db.execute(stmt)
+    current_user = result.scalars().first()
 
-    current_user=db.query(User).filter(User.username==user).first()
-
-    return jsonable_encoder(current_user.orders)
+    #return jsonable_encoder(current_user.orders)
+    if current_user:
+        # Nếu relationship orders được cài đặt theo lazy load, bạn có thể trả về current_user.orders.
+        # Tuy nhiên, trong async session, để đảm bảo load đầy đủ, có thể cần truy vấn riêng.
+        stmt_orders = select(Order).where(Order.user_id == current_user.id)
+        result_orders = await db.execute(stmt_orders)
+        orders = result_orders.scalars().all()
+        return jsonable_encoder(orders)
+    
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
 
 
 @order_router.get('/user/order/{id}/')
@@ -187,19 +219,34 @@ async def get_specific_order(id:int,Authorize:AuthJWT=Depends(), db: Session = D
             detail="Invalid Token"
         )
 
-    subject=Authorize.get_jwt_subject()
+    user=Authorize.get_jwt_subject()
 
-    current_user=db.query(User).filter(User.username==subject).first()
+    #current_user=db.query(User).filter(User.username==user).first()
+    stmt = select(User).where(User.username == user)
+    result = await db.execute(stmt)
+    current_user = result.scalars().first()
 
-    orders=current_user.orders
-
-    for o in orders:
-        if o.id == id:
-            return jsonable_encoder(o)
+    #orders=current_user.orders
+    # for o in orders:
+    #     if o.id == id:
+    #         return jsonable_encoder(o)
     
-    raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
-        detail="No order with such id"
-    )
+    # raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+    #     detail="No order with such id"
+    # )
+
+    if current_user:
+        # query specific order of current user
+        stmt_order = select(Order).where(Order.id == id, Order.user_id == current_user.id)
+        result_order = await db.execute(stmt_order)
+        order = result_order.scalars().first()
+        if order:
+            return jsonable_encoder(order)
+        else:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="No order with such id")
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+
+
 
 
 @order_router.put('/order/update/{id}/')
@@ -209,6 +256,8 @@ async def update_order(id:int,order:OrderModel,Authorize:AuthJWT=Depends(), db: 
         This udates an order and requires the following fields
         - quantity : integer
         - pizza_size: str
+
+        *Only the owner of the order can update it.
     
     """
 
@@ -217,23 +266,44 @@ async def update_order(id:int,order:OrderModel,Authorize:AuthJWT=Depends(), db: 
 
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,detail="Invalid Token")
+    
+    user = Authorize.get_jwt_subject()
+    stmt_user = select(User).where(User.username == user)
+    result_user = await db.execute(stmt_user)
+    current_user = result_user.scalars().first()
 
-    order_to_update=db.query(Order).filter(Order.id==id).first()
+    if not current_user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+    
+    stmt_order = select(Order).where(Order.id == id, Order.user_id == current_user.id)
+    result_order = await db.execute(stmt_order)
+    order_to_update = result_order.scalars().first()
 
-    order_to_update.quantity=order.quantity
-    order_to_update.pizza_size=order.pizza_size
+    #order_to_update=db.query(Order).filter(Order.id==id).first()
+   
 
-    db.commit()
+    if order_to_update:
+        order_to_update.quantity = order.quantity
+        order_to_update.pizza_size = order.pizza_size
+        await db.commit()
+        await db.refresh(order_to_update)
+        return jsonable_encoder(order_to_update)
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Order not found or you are not authorized to update it")
+
+    # order_to_update.quantity=order.quantity
+    # order_to_update.pizza_size=order.pizza_size
+
+    # db.commit()
 
 
-    response={
-                "id":order_to_update.id,
-                "quantity":order_to_update.quantity,
-                "pizza_size":order_to_update.pizza_size,
-                "order_status":order_to_update.order_status,
-            }
+    # response={
+    #             "id":order_to_update.id,
+    #             "quantity":order_to_update.quantity,
+    #             "pizza_size":order_to_update.pizza_size,
+    #             "order_status":order_to_update.order_status,
+    #         }
 
-    return jsonable_encoder(order_to_update)
+    # return jsonable_encoder(order_to_update)
 
     
 @order_router.patch('/order/update/{id}/')
@@ -252,25 +322,41 @@ async def update_order_status(id:int,
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,detail="Invalid Token")
 
-    username=Authorize.get_jwt_subject()
+    user=Authorize.get_jwt_subject()
 
-    current_user=db.query(User).filter(User.username==username).first()
+    #current_user=db.query(User).filter(User.username==user).first()
+    stmt = select(User).where(User.username == user)
+    result = await db.execute(stmt)
+    current_user = result.scalars().first()
 
-    if current_user.is_staff:
-        order_to_update=db.query(Order).filter(Order.id==id).first()
+    if current_user and current_user.is_staff:
+        #order_to_update=db.query(Order).filter(Order.id==id).first()
+        stmt_order = select(Order).where(Order.id == id)
+        result_order = await db.execute(stmt_order)
+        order_to_update = result_order.scalars().first()
 
-        order_to_update.order_status=order.order_status
+        if order_to_update:
+            order_to_update.order_status = order.order_status
+            await db.commit()
+            await db.refresh(order_to_update)
+            return jsonable_encoder(order_to_update)
+        else:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Order not found")
+        
+    raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="User not allowed to carry out request")
 
-        db.commit()
+        # order_to_update.order_status=order.order_status
 
-        response={
-                "id":order_to_update.id,
-                "quantity":order_to_update.quantity,
-                "pizza_size":order_to_update.pizza_size,
-                "order_status":order_to_update.order_status,
-            }
+        # db.commit()
 
-        return jsonable_encoder(response)
+        # response={
+        #         "id":order_to_update.id,
+        #         "quantity":order_to_update.quantity,
+        #         "pizza_size":order_to_update.pizza_size,
+        #         "order_status":order_to_update.order_status,
+        #     }
+
+        # return jsonable_encoder(response)
 
 
 @order_router.delete('/order/delete/{id}/',status_code=status.HTTP_204_NO_CONTENT)
@@ -286,12 +372,37 @@ async def delete_an_order(id:int,Authorize:AuthJWT=Depends(), db: Session = Depe
 
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,detail="Invalid Token")
+    
+    user = Authorize.get_jwt_subject()
+    # Lấy thông tin người dùng hiện tại
+    stmt_user = select(User).where(User.username == user)
+    result_user = await db.execute(stmt_user)
+    current_user = result_user.scalars().first()
+
+    if not current_user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+    
+    # Nếu user là staff, cho phép xóa bất kỳ order nào
+    
+    if current_user.is_staff:
+        stmt_order = select(Order).where(Order.id == id)
+    else:
+        # Nếu không phải staff, chỉ cho phép xóa order của chính user
+        stmt_order = select(Order).where(Order.id == id, Order.user_id == current_user.id)
+
+    result_order = await db.execute(stmt_order)
+    order_to_delete = result_order.scalars().first()
 
 
-    order_to_delete=db.query(Order).filter(Order.id==id).first()
+    #order_to_delete=db.query(Order).filter(Order.id==id).first()
 
-    db.delete(order_to_delete)
+    # db.delete(order_to_delete)
 
-    db.commit()
+    # db.commit()
 
-    return order_to_delete
+    # return order_to_delete
+    if order_to_delete:
+        db.delete(order_to_delete)
+        await db.commit()
+        return jsonable_encoder(order_to_delete)
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Order not found or not authorized")

@@ -36,7 +36,7 @@ async def hello(Authorize:AuthJWT=Depends()):
             detail="Invalid Token, please log in or sign up !"
         )
 
-    return {"message":"Hello World"}
+    return {"message":"Hello World-please log in"}
 
 @auth_router.post('/signup',status_code=status.HTTP_201_CREATED)
 async def signup(user:SignUpModel, db: Session = Depends(get_db)):
@@ -123,7 +123,7 @@ async def login(user:LoginModel,request: Request,response: Response, Authorize:A
         #existing_tokens = db.query(TokenLog).filter(TokenLog.user_id == db_user.id).all()
         stmt = select(TokenLog).where(TokenLog.user_id == db_user.id)
         result = await db.execute(stmt)
-        existing_tokens = result.scalars().all()
+        existing_tokens = result.scalars().all() #trả về các đối tượng ORM đã được nạp vào session. Sau đó, khi bạn thay đổi thuộc tính của chúng, session nhận diện những thay đổi đó và cập nhật vào cơ sở dữ liệu khi bạn gọi commit.
 
         # checkig if user_id has already be used by finding in token_logs
         if existing_tokens:
