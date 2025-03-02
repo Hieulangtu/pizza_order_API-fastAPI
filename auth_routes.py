@@ -12,7 +12,7 @@ from datetime import datetime
 import uuid
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
-from sqlalchemy import select
+from sqlalchemy import select, delete
 
 auth_router = APIRouter(
     prefix='/auth',
@@ -115,7 +115,7 @@ async def login(user:LoginModel,request: Request,response: Response, Authorize:A
 
         # Create sessionId 
         session_id = str(uuid.uuid4())  
-        response.set_cookie(key="sessionId", value=session_id, httponly=True) #store in cookie
+        response.set_cookie(key="sessionId", value=session_id, httponly=True, max_age=604800) #store in cookie
 
         fingerprint = generate_fingerprint(request)
 
@@ -309,3 +309,32 @@ async def refresh_token(request: Request, response: Response, Authorize: AuthJWT
         db.add(access_log)
         await db.commit()
         return jsonable_encoder({"access": new_access_token})
+    
+
+@auth_router.post('/logout', status_code=status.HTTP_200_OK)
+async def logout(response: Response, Authorize: AuthJWT = Depends(), db: Session = Depends(get_db)):
+    try:
+        Authorize.jwt_required()
+    except Exception:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid Token")
+    
+    # Lấy user từ token nếu cần
+    user = Authorize.get_jwt_subject()
+    stmt_user = select(User).where(User.username == user)
+    result = await db.execute(stmt_user)
+    current_user = result.scalars().first()
+    if not current_user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found"
+        )
+    
+    # xoá tất cả token logs của user hiện tại:
+    stmt = delete(TokenLog).where(TokenLog.user_id == current_user.id)
+    await db.execute(stmt)
+    await db.commit()
+    
+    # Xóa cookie chứa sessionId (nếu bạn dùng cookie để lưu session)
+    response.delete_cookie("sessionId")
+    
+    return {"message": "Logged out successfully"}
