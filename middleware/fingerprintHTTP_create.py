@@ -5,6 +5,24 @@ from database import SessionLocal
 from sqlalchemy import select
 
 #session=Session(bind=engine)
+def normalize_header_value(header_value: str) -> str:
+    """
+    Chuẩn hóa giá trị header bằng cách:
+    1. Tách các thành phần theo dấu phẩy.
+    2. Loại bỏ khoảng trắng thừa.
+    3. Sắp xếp các thành phần theo thứ tự bảng chữ cái.
+    4. Ghép lại thành một chuỗi với dấu phẩy và khoảng trắng phân cách.
+    
+    :param header_value: Giá trị header ban đầu.
+    :return: Giá trị header đã được chuẩn hóa.
+    """
+    # Tách các thành phần, loại bỏ khoảng trắng đầu/cuối và chỉ giữ các phần không rỗng
+    parts = [part.strip() for part in header_value.split(',') if part.strip()]
+    # sort
+    parts.sort()
+    # Ghép lại thành chuỗi
+    normalized = ', '.join(parts)
+    return normalized
 
 def generate_fingerprint(request: Request) -> str:
     """
@@ -25,18 +43,25 @@ def generate_fingerprint(request: Request) -> str:
     sec_ch_ua_mobile = request.headers.get("sec-ch-ua-mobile", "")
     ip_address = request.client.host
 
+    #normalize-chuẩn hóa
+    sec_ch_ua = normalize_header_value(sec_ch_ua)
+    accept_encoding = normalize_header_value(accept_encoding)
+    accept_language = normalize_header_value(accept_language)
+
 
     # Take information about browser
-    sec_ch_ua_list = [item.strip() for item in sec_ch_ua.split(",")]
-    important_sec_ch_ua = sec_ch_ua_list[1] if "Chromium" in sec_ch_ua_list[0] else sec_ch_ua_list[0]
+    #order changes, not this way
+    #sec_ch_ua_list = [item.strip() for item in sec_ch_ua.split(",")]
+    #important_sec_ch_ua = sec_ch_ua_list[1] if "Chromium" in sec_ch_ua_list[0] else sec_ch_ua_list[0]
 
     # Create request_fingerprint 
-    fingerprint_string = f"{important_sec_ch_ua}-{user_agent}-{sec_ch_ua_platform}-{accept_language}-{sec_ch_ua_mobile}-{ip_address}-{accept_encoding}"
+    #fingerprint_string = f"{important_sec_ch_ua}-{user_agent}-{sec_ch_ua_platform}-{accept_language}-{sec_ch_ua_mobile}-{ip_address}-{accept_encoding}"
+    fingerprint_string = f"{sec_ch_ua}-{user_agent}-{sec_ch_ua_platform}-{accept_language}-{sec_ch_ua_mobile}-{ip_address}-{accept_encoding}"
     fingerprint_hash = sha256(fingerprint_string.encode()).hexdigest()
 
     #write to file
     with open("fingerprints_log/fingerprintsV4.txt", "a") as log_file:
-        log_file.write(f"{fingerprint_hash}   {important_sec_ch_ua}\n\n")
+        log_file.write(f"{fingerprint_hash}   {sec_ch_ua}\n\n")
 
     return fingerprint_hash
 
