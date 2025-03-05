@@ -9,10 +9,14 @@ from fastapi_jwt_auth import AuthJWT
 from fastapi.encoders import jsonable_encoder
 from middleware.fingerprintHTTP_create import generate_fingerprint
 from datetime import datetime
-import uuid
+import uuid, json
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 from sqlalchemy import select, delete
+
+# Import client Redis
+from redis_client import redis_client
+
 
 auth_router = APIRouter(
     prefix='/auth',
@@ -125,6 +129,10 @@ async def login(user:LoginModel,request: Request,response: Response, Authorize:A
         result = await db.execute(stmt)
         existing_tokens = result.scalars().all() #trả về các đối tượng ORM đã được nạp vào session. Sau đó, khi bạn thay đổi thuộc tính của chúng, session nhận diện những thay đổi đó và cập nhật vào cơ sở dữ liệu khi bạn gọi commit.
 
+        updated_access = None
+        updated_refresh = None
+        
+
         # checkig if user_id has already be used by finding in token_logs
         if existing_tokens:
             matching_tokens = None
@@ -139,8 +147,10 @@ async def login(user:LoginModel,request: Request,response: Response, Authorize:A
                 for token in matching_tokens:
                     if token.type == "access_token":
                         token.token = access_token
+                        updated_access = token
                     elif token.type == "refresh_token":
                         token.token = refresh_token
+                        updated_refresh = token
                     token.created_at = datetime.now()
                     token.session_id = session_id
                     token.root_token=refresh_token
@@ -158,6 +168,7 @@ async def login(user:LoginModel,request: Request,response: Response, Authorize:A
                     session_id=session_id,
                     user_id=db_user.id
                 )
+                updated_access = access_log
 
                 refresh_log = TokenLog(
                     fingerprint=fingerprint,
@@ -168,6 +179,7 @@ async def login(user:LoginModel,request: Request,response: Response, Authorize:A
                     session_id=session_id,
                     user_id=db_user.id
                 )
+                updated_refresh = refresh_log
 
                 db.add(access_log)
                 db.add(refresh_log)
@@ -185,6 +197,7 @@ async def login(user:LoginModel,request: Request,response: Response, Authorize:A
                 session_id=session_id,
                 user_id=db_user.id
             )
+            updated_access = access_log
 
             refresh_log = TokenLog(
                 fingerprint=fingerprint,
@@ -195,11 +208,40 @@ async def login(user:LoginModel,request: Request,response: Response, Authorize:A
                 session_id=session_id,
                 user_id=db_user.id
             )
+            updated_refresh = refresh_log
 
             db.add(access_log)
             db.add(refresh_log)
             await db.commit()
             print(f"Added new tokens for user_id={db_user.id}")
+        
+        #Save TokenLog to Redis cache
+        access_key = f"TokenLog:{access_token}"
+        refresh_key = f"TokenLog:{refresh_token}"
+        access_data = {
+            "id": updated_access.id,
+            "fingerprint": fingerprint,
+            "token": access_token,
+            "type": "access_token",
+            "root_token":refresh_token,
+            "session_id": session_id,
+            "user_id": db_user.id,
+            "created_at": updated_access.created_at.isoformat()
+        }
+        refresh_data = {
+            "id": updated_refresh.id,
+            "fingerprint": fingerprint,
+            "token": refresh_token,
+            "type": "refresh_token",
+            "root_token" : refresh_token,
+            "session_id": session_id,
+            "user_id": db_user.id,
+            "created_at": updated_refresh.created_at.isoformat()
+        }
+        # set TTL: access token 15 phút, refresh token 7 ngày
+        await redis_client.setex(access_key, 900, json.dumps(access_data))
+        await redis_client.setex(refresh_key, 604800, json.dumps(refresh_data))
+
 
         # response
         response_data = {

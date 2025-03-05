@@ -3,6 +3,8 @@ from fastapi import Request, Depends, HTTPException
 from models import TokenLog
 from database import SessionLocal
 from sqlalchemy import select
+from redis_client import redis_client
+import json
 
 #session=Session(bind=engine)
 def normalize_header_value(header_value: str) -> str:
@@ -20,7 +22,7 @@ def normalize_header_value(header_value: str) -> str:
     parts = [part.strip() for part in header_value.split(',') if part.strip()]
     # sort
     parts.sort()
-    # Ghép lại thành chuỗi
+    # join
     normalized = ', '.join(parts)
     return normalized
 
@@ -87,6 +89,7 @@ async def fingerprint_middleware(request: Request, call_next):
     
     #take the token
     token = request.headers.get("authorization").split(" ", 1)[1].strip()
+    redis_key = f"TokenLog:{token}"
 
     # create new session for each request middleware
     #đoạn này gốc/origin
@@ -106,7 +109,27 @@ async def fingerprint_middleware(request: Request, call_next):
     #         db.commit()
     #         raise HTTPException(status_code=401, detail="Log in please")
 
+    # 1. Check data in Redis
+    token_data = await redis_client.get(redis_key)
+    if token_data:
+        token_obj = json.loads(token_data)
+        if token_obj.get("fingerprint") == fingerprint_hash and token_obj.get("session_id") == session_id:
+            # good
+            return await call_next(request)
+        else:
+            # if not matching, delete token in Redis
+            await redis_client.delete(redis_key)
+            # in the same time, delete corresponding data in PostgreSQL
+            async with SessionLocal() as db:
+                stmt = select(TokenLog).where(TokenLog.token == token)
+                result = await db.execute(stmt)
+                token_entry = result.scalars().first()
+                if token_entry:
+                    db.delete(token_entry)
+                    await db.commit()
+            raise HTTPException(status_code=401, detail="Log in please")
 
+    # 2. if not finding tokenlog in Redis, checking in PostgreSQL
     async with SessionLocal() as db:
        stmt = select(TokenLog).where(TokenLog.token == token)
        result = await db.execute(stmt)
@@ -116,9 +139,25 @@ async def fingerprint_middleware(request: Request, call_next):
          raise HTTPException(status_code=401, detail="Invalid token-can't be found")
 
        if token_entry.fingerprint == fingerprint_hash and token_entry.session_id == session_id:
-         # OK: cho phép request tiếp tục
-         response = await call_next(request)
-         return response
+            # OK: let request go through
+            # save/update to redis
+            # update cache Redis for next time
+            # build key for token (use token for key)
+            token_obj = {
+                "id": token_entry.id,
+                "fingerprint": token_entry.fingerprint,
+                "token": token_entry.token,
+                "type": token_entry.type,
+                "session_id": token_entry.session_id,
+                "user_id": token_entry.user_id,
+                "created_at": token_entry.created_at.isoformat()
+            }
+            # Thiết lập TTL dựa trên type
+            ttl = 900 if token_entry.type == "access_token" else 604800
+            await redis_client.setex(redis_key, ttl, json.dumps(token_obj))
+            #response
+            response = await call_next(request)
+            return response
        else:
          #  Nếu fingerprint hoặc session_id không khớp, xoá token và commit thay đổi
          db.delete(token_entry)
@@ -173,3 +212,4 @@ async def fingerprint_middleware(request: Request, call_next):
 
     # response = await call_next(request)
     # return response
+
