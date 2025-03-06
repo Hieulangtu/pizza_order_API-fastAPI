@@ -8,15 +8,9 @@ import json
 
 #session=Session(bind=engine)
 def normalize_header_value(header_value: str) -> str:
-    """
-    Chuẩn hóa giá trị header bằng cách:
-    1. Tách các thành phần theo dấu phẩy.
-    2. Loại bỏ khoảng trắng thừa.
-    3. Sắp xếp các thành phần theo thứ tự bảng chữ cái.
-    4. Ghép lại thành một chuỗi với dấu phẩy và khoảng trắng phân cách.
-    
-    :param header_value: Giá trị header ban đầu.
-    :return: Giá trị header đã được chuẩn hóa.
+    """ 
+    :param header_value: value of header input.
+    :return: value of header after normalized.
     """
     # Tách các thành phần, loại bỏ khoảng trắng đầu/cuối và chỉ giữ các phần không rỗng
     parts = [part.strip() for part in header_value.split(',') if part.strip()]
@@ -152,14 +146,14 @@ async def fingerprint_middleware(request: Request, call_next):
                 "user_id": token_entry.user_id,
                 "created_at": token_entry.created_at.isoformat()
             }
-            # Thiết lập TTL dựa trên type
+            # create TTL base on type
             ttl = 900 if token_entry.type == "access_token" else 604800
             await redis_client.setex(redis_key, ttl, json.dumps(token_obj))
             #response
             response = await call_next(request)
             return response
        else:
-         #  Nếu fingerprint hoặc session_id không khớp, xoá token và commit thay đổi
+         #  if fingerprint or session_id is not matching, delete token 
          db.delete(token_entry)
          await db.commit()
          raise HTTPException(status_code=401, detail="Log in please")
