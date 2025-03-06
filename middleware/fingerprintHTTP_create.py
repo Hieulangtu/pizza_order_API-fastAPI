@@ -92,7 +92,7 @@ async def fingerprint_middleware(request: Request, call_next):
     redis_key = f"TokenLog:{token}"
 
     # create new session for each request middleware
-    #đoạn này gốc/origin
+    #đoạn này gốc/sync
     # with SessionLocal() as db:
     #     token_entry = db.query(TokenLog).filter(TokenLog.token == token).first()
     #     if not token_entry:
