@@ -38,6 +38,12 @@ async def lifespan(app: FastAPI):
 
 app=FastAPI(lifespan=lifespan)
 
+# @app.middleware("http")
+# async def add_security_headers(request, call_next):
+#     response = await call_next(request)
+#     response.headers["Accept-CH"] = "Sec-CH-UA-Model, Sec-CH-UA-Platform, Sec-CH-UA-Mobile"
+#     return response
+
 #writes requests to requests.txt
 app.add_middleware(LogRequestMiddleware)
 

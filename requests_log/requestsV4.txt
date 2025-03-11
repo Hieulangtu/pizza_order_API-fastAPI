@@ -1110,3 +1110,1082 @@
     "body": "No body"
 }
 
+{
+    "method": "GET",
+    "url": "https://127.0.0.1:8000/",
+    "headers": {
+        "host": "127.0.0.1:8000",
+        "connection": "keep-alive",
+        "cache-control": "max-age=0",
+        "sec-ch-ua": "\"Not(A:Brand\";v=\"99\", \"Google Chrome\";v=\"133\", \"Chromium\";v=\"133\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "upgrade-insecure-requests": "1",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36",
+        "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+        "sec-fetch-site": "none",
+        "sec-fetch-mode": "navigate",
+        "sec-fetch-user": "?1",
+        "sec-fetch-dest": "document",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en,vi-VN;q=0.9,vi;q=0.8,en-US;q=0.7"
+    },
+    "query_params": {},
+    "path_params": {},
+    "client": "127.0.0.1",
+    "client_meta": [
+        "127.0.0.1",
+        14041
+    ],
+    "cookies": {},
+    "scope": {
+        "type": "\"http\"",
+        "asgi": "{\"version\": \"3.0\", \"spec_version\": \"2.4\"}",
+        "http_version": "\"1.1\"",
+        "server": "[\"127.0.0.1\", 8000]",
+        "client": "[\"127.0.0.1\", 14041]",
+        "scheme": "\"https\"",
+        "root_path": "\"\"",
+        "headers": "[(b'host', b'127.0.0.1:8000'), (b'connection', b'keep-alive'), (b'cache-control', b'max-age=0'), (b'sec-ch-ua', b'\"Not(A:Brand\";v=\"99\", \"Google Chrome\";v=\"133\", \"Chromium\";v=\"133\"'), (b'sec-ch-ua-mobile', b'?0'), (b'sec-ch-ua-platform', b'\"Windows\"'), (b'upgrade-insecure-requests', b'1'), (b'user-agent', b'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36'), (b'accept', b'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7'), (b'sec-fetch-site', b'none'), (b'sec-fetch-mode', b'navigate'), (b'sec-fetch-user', b'?1'), (b'sec-fetch-dest', b'document'), (b'accept-encoding', b'gzip, deflate, br, zstd'), (b'accept-language', b'en,vi-VN;q=0.9,vi;q=0.8,en-US;q=0.7')]",
+        "state": "{}",
+        "method": "\"GET\"",
+        "path": "\"/\"",
+        "raw_path": "b'/'",
+        "query_string": "b''",
+        "app": "<fastapi.applications.FastAPI object at 0x00000206B5869570>"
+    },
+    "body": "No body"
+}
+
+{
+    "method": "GET",
+    "url": "https://127.0.0.1:8000/docs",
+    "headers": {
+        "host": "127.0.0.1:8000",
+        "connection": "keep-alive",
+        "sec-ch-ua": "\"Not(A:Brand\";v=\"99\", \"Google Chrome\";v=\"133\", \"Chromium\";v=\"133\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "upgrade-insecure-requests": "1",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36",
+        "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+        "sec-fetch-site": "none",
+        "sec-fetch-mode": "navigate",
+        "sec-fetch-user": "?1",
+        "sec-fetch-dest": "document",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en,vi-VN;q=0.9,vi;q=0.8,en-US;q=0.7"
+    },
+    "query_params": {},
+    "path_params": {},
+    "client": "127.0.0.1",
+    "client_meta": [
+        "127.0.0.1",
+        14080
+    ],
+    "cookies": {},
+    "scope": {
+        "type": "\"http\"",
+        "asgi": "{\"version\": \"3.0\", \"spec_version\": \"2.4\"}",
+        "http_version": "\"1.1\"",
+        "server": "[\"127.0.0.1\", 8000]",
+        "client": "[\"127.0.0.1\", 14080]",
+        "scheme": "\"https\"",
+        "root_path": "\"\"",
+        "headers": "[(b'host', b'127.0.0.1:8000'), (b'connection', b'keep-alive'), (b'sec-ch-ua', b'\"Not(A:Brand\";v=\"99\", \"Google Chrome\";v=\"133\", \"Chromium\";v=\"133\"'), (b'sec-ch-ua-mobile', b'?0'), (b'sec-ch-ua-platform', b'\"Windows\"'), (b'upgrade-insecure-requests', b'1'), (b'user-agent', b'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36'), (b'accept', b'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7'), (b'sec-fetch-site', b'none'), (b'sec-fetch-mode', b'navigate'), (b'sec-fetch-user', b'?1'), (b'sec-fetch-dest', b'document'), (b'accept-encoding', b'gzip, deflate, br, zstd'), (b'accept-language', b'en,vi-VN;q=0.9,vi;q=0.8,en-US;q=0.7')]",
+        "state": "{}",
+        "method": "\"GET\"",
+        "path": "\"/docs\"",
+        "raw_path": "b'/docs'",
+        "query_string": "b''",
+        "app": "<fastapi.applications.FastAPI object at 0x00000206B5869570>"
+    },
+    "body": "No body"
+}
+
+{
+    "method": "GET",
+    "url": "https://127.0.0.1:8000/openapi.json",
+    "headers": {
+        "host": "127.0.0.1:8000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36",
+        "accept": "application/json,*/*",
+        "sec-ch-ua": "\"Not(A:Brand\";v=\"99\", \"Google Chrome\";v=\"133\", \"Chromium\";v=\"133\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-fetch-site": "same-origin",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "https://127.0.0.1:8000/docs",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en,vi-VN;q=0.9,vi;q=0.8,en-US;q=0.7"
+    },
+    "query_params": {},
+    "path_params": {},
+    "client": "127.0.0.1",
+    "client_meta": [
+        "127.0.0.1",
+        14080
+    ],
+    "cookies": {},
+    "scope": {
+        "type": "\"http\"",
+        "asgi": "{\"version\": \"3.0\", \"spec_version\": \"2.4\"}",
+        "http_version": "\"1.1\"",
+        "server": "[\"127.0.0.1\", 8000]",
+        "client": "[\"127.0.0.1\", 14080]",
+        "scheme": "\"https\"",
+        "root_path": "\"\"",
+        "headers": "[(b'host', b'127.0.0.1:8000'), (b'connection', b'keep-alive'), (b'sec-ch-ua-platform', b'\"Windows\"'), (b'user-agent', b'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36'), (b'accept', b'application/json,*/*'), (b'sec-ch-ua', b'\"Not(A:Brand\";v=\"99\", \"Google Chrome\";v=\"133\", \"Chromium\";v=\"133\"'), (b'sec-ch-ua-mobile', b'?0'), (b'sec-fetch-site', b'same-origin'), (b'sec-fetch-mode', b'cors'), (b'sec-fetch-dest', b'empty'), (b'referer', b'https://127.0.0.1:8000/docs'), (b'accept-encoding', b'gzip, deflate, br, zstd'), (b'accept-language', b'en,vi-VN;q=0.9,vi;q=0.8,en-US;q=0.7')]",
+        "state": "{}",
+        "method": "\"GET\"",
+        "path": "\"/openapi.json\"",
+        "raw_path": "b'/openapi.json'",
+        "query_string": "b''",
+        "app": "<fastapi.applications.FastAPI object at 0x00000206B5869570>"
+    },
+    "body": "No body"
+}
+
+{
+    "method": "POST",
+    "url": "https://127.0.0.1:8000/auth/login",
+    "headers": {
+        "host": "127.0.0.1:8000",
+        "connection": "keep-alive",
+        "content-length": "47",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36",
+        "accept": "application/json",
+        "sec-ch-ua": "\"Not(A:Brand\";v=\"99\", \"Google Chrome\";v=\"133\", \"Chromium\";v=\"133\"",
+        "content-type": "application/json",
+        "sec-ch-ua-mobile": "?0",
+        "origin": "https://127.0.0.1:8000",
+        "sec-fetch-site": "same-origin",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "https://127.0.0.1:8000/docs",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en,vi-VN;q=0.9,vi;q=0.8,en-US;q=0.7"
+    },
+    "query_params": {},
+    "path_params": {},
+    "client": "127.0.0.1",
+    "client_meta": [
+        "127.0.0.1",
+        15216
+    ],
+    "cookies": {},
+    "scope": {
+        "type": "\"http\"",
+        "asgi": "{\"version\": \"3.0\", \"spec_version\": \"2.4\"}",
+        "http_version": "\"1.1\"",
+        "server": "[\"127.0.0.1\", 8000]",
+        "client": "[\"127.0.0.1\", 15216]",
+        "scheme": "\"https\"",
+        "root_path": "\"\"",
+        "headers": "[(b'host', b'127.0.0.1:8000'), (b'connection', b'keep-alive'), (b'content-length', b'47'), (b'sec-ch-ua-platform', b'\"Windows\"'), (b'user-agent', b'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36'), (b'accept', b'application/json'), (b'sec-ch-ua', b'\"Not(A:Brand\";v=\"99\", \"Google Chrome\";v=\"133\", \"Chromium\";v=\"133\"'), (b'content-type', b'application/json'), (b'sec-ch-ua-mobile', b'?0'), (b'origin', b'https://127.0.0.1:8000'), (b'sec-fetch-site', b'same-origin'), (b'sec-fetch-mode', b'cors'), (b'sec-fetch-dest', b'empty'), (b'referer', b'https://127.0.0.1:8000/docs'), (b'accept-encoding', b'gzip, deflate, br, zstd'), (b'accept-language', b'en,vi-VN;q=0.9,vi;q=0.8,en-US;q=0.7')]",
+        "state": "{}",
+        "method": "\"POST\"",
+        "path": "\"/auth/login\"",
+        "raw_path": "b'/auth/login'",
+        "query_string": "b''",
+        "app": "<fastapi.applications.FastAPI object at 0x00000206B5869570>"
+    },
+    "body": "{\n  \"username\": \"a\",\n  \"password\": \"password\"\n}"
+}
+
+{
+    "method": "POST",
+    "url": "https://127.0.0.1:8000/auth/login",
+    "headers": {
+        "host": "127.0.0.1:8000",
+        "connection": "keep-alive",
+        "content-length": "47",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36",
+        "accept": "application/json",
+        "sec-ch-ua": "\"Not(A:Brand\";v=\"99\", \"Google Chrome\";v=\"133\", \"Chromium\";v=\"133\"",
+        "content-type": "application/json",
+        "sec-ch-ua-mobile": "?0",
+        "origin": "https://127.0.0.1:8000",
+        "sec-fetch-site": "same-origin",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "https://127.0.0.1:8000/docs",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en,vi-VN;q=0.9,vi;q=0.8,en-US;q=0.7"
+    },
+    "query_params": {},
+    "path_params": {},
+    "client": "127.0.0.1",
+    "client_meta": [
+        "127.0.0.1",
+        15233
+    ],
+    "cookies": {},
+    "scope": {
+        "type": "\"http\"",
+        "asgi": "{\"version\": \"3.0\", \"spec_version\": \"2.4\"}",
+        "http_version": "\"1.1\"",
+        "server": "[\"127.0.0.1\", 8000]",
+        "client": "[\"127.0.0.1\", 15233]",
+        "scheme": "\"https\"",
+        "root_path": "\"\"",
+        "headers": "[(b'host', b'127.0.0.1:8000'), (b'connection', b'keep-alive'), (b'content-length', b'47'), (b'sec-ch-ua-platform', b'\"Windows\"'), (b'user-agent', b'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36'), (b'accept', b'application/json'), (b'sec-ch-ua', b'\"Not(A:Brand\";v=\"99\", \"Google Chrome\";v=\"133\", \"Chromium\";v=\"133\"'), (b'content-type', b'application/json'), (b'sec-ch-ua-mobile', b'?0'), (b'origin', b'https://127.0.0.1:8000'), (b'sec-fetch-site', b'same-origin'), (b'sec-fetch-mode', b'cors'), (b'sec-fetch-dest', b'empty'), (b'referer', b'https://127.0.0.1:8000/docs'), (b'accept-encoding', b'gzip, deflate, br, zstd'), (b'accept-language', b'en,vi-VN;q=0.9,vi;q=0.8,en-US;q=0.7')]",
+        "state": "{}",
+        "method": "\"POST\"",
+        "path": "\"/auth/login\"",
+        "raw_path": "b'/auth/login'",
+        "query_string": "b''",
+        "app": "<fastapi.applications.FastAPI object at 0x00000206B5869570>"
+    },
+    "body": "{\n  \"username\": \"c\",\n  \"password\": \"password\"\n}"
+}
+
+{
+    "method": "POST",
+    "url": "https://127.0.0.1:8000/auth/login",
+    "headers": {
+        "host": "127.0.0.1:8000",
+        "connection": "keep-alive",
+        "content-length": "47",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36",
+        "accept": "application/json",
+        "sec-ch-ua": "\"Not(A:Brand\";v=\"99\", \"Google Chrome\";v=\"133\", \"Chromium\";v=\"133\"",
+        "content-type": "application/json",
+        "sec-ch-ua-mobile": "?0",
+        "origin": "https://127.0.0.1:8000",
+        "sec-fetch-site": "same-origin",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "https://127.0.0.1:8000/docs",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en,vi-VN;q=0.9,vi;q=0.8,en-US;q=0.7"
+    },
+    "query_params": {},
+    "path_params": {},
+    "client": "127.0.0.1",
+    "client_meta": [
+        "127.0.0.1",
+        15651
+    ],
+    "cookies": {},
+    "scope": {
+        "type": "\"http\"",
+        "asgi": "{\"version\": \"3.0\", \"spec_version\": \"2.4\"}",
+        "http_version": "\"1.1\"",
+        "server": "[\"127.0.0.1\", 8000]",
+        "client": "[\"127.0.0.1\", 15651]",
+        "scheme": "\"https\"",
+        "root_path": "\"\"",
+        "headers": "[(b'host', b'127.0.0.1:8000'), (b'connection', b'keep-alive'), (b'content-length', b'47'), (b'sec-ch-ua-platform', b'\"Windows\"'), (b'user-agent', b'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36'), (b'accept', b'application/json'), (b'sec-ch-ua', b'\"Not(A:Brand\";v=\"99\", \"Google Chrome\";v=\"133\", \"Chromium\";v=\"133\"'), (b'content-type', b'application/json'), (b'sec-ch-ua-mobile', b'?0'), (b'origin', b'https://127.0.0.1:8000'), (b'sec-fetch-site', b'same-origin'), (b'sec-fetch-mode', b'cors'), (b'sec-fetch-dest', b'empty'), (b'referer', b'https://127.0.0.1:8000/docs'), (b'accept-encoding', b'gzip, deflate, br, zstd'), (b'accept-language', b'en,vi-VN;q=0.9,vi;q=0.8,en-US;q=0.7')]",
+        "state": "{}",
+        "method": "\"POST\"",
+        "path": "\"/auth/login\"",
+        "raw_path": "b'/auth/login'",
+        "query_string": "b''",
+        "app": "<fastapi.applications.FastAPI object at 0x00000206B5869570>"
+    },
+    "body": "{\n  \"username\": \"a\",\n  \"password\": \"password\"\n}"
+}
+
+{
+    "method": "POST",
+    "url": "https://127.0.0.1:8000/auth/login",
+    "headers": {
+        "host": "127.0.0.1:8000",
+        "connection": "keep-alive",
+        "content-length": "47",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36",
+        "accept": "application/json",
+        "sec-ch-ua": "\"Not(A:Brand\";v=\"99\", \"Google Chrome\";v=\"133\", \"Chromium\";v=\"133\"",
+        "content-type": "application/json",
+        "sec-ch-ua-mobile": "?0",
+        "origin": "https://127.0.0.1:8000",
+        "sec-fetch-site": "same-origin",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "https://127.0.0.1:8000/docs",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en,vi-VN;q=0.9,vi;q=0.8,en-US;q=0.7"
+    },
+    "query_params": {},
+    "path_params": {},
+    "client": "127.0.0.1",
+    "client_meta": [
+        "127.0.0.1",
+        15678
+    ],
+    "cookies": {},
+    "scope": {
+        "type": "\"http\"",
+        "asgi": "{\"version\": \"3.0\", \"spec_version\": \"2.4\"}",
+        "http_version": "\"1.1\"",
+        "server": "[\"127.0.0.1\", 8000]",
+        "client": "[\"127.0.0.1\", 15678]",
+        "scheme": "\"https\"",
+        "root_path": "\"\"",
+        "headers": "[(b'host', b'127.0.0.1:8000'), (b'connection', b'keep-alive'), (b'content-length', b'47'), (b'sec-ch-ua-platform', b'\"Windows\"'), (b'user-agent', b'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36'), (b'accept', b'application/json'), (b'sec-ch-ua', b'\"Not(A:Brand\";v=\"99\", \"Google Chrome\";v=\"133\", \"Chromium\";v=\"133\"'), (b'content-type', b'application/json'), (b'sec-ch-ua-mobile', b'?0'), (b'origin', b'https://127.0.0.1:8000'), (b'sec-fetch-site', b'same-origin'), (b'sec-fetch-mode', b'cors'), (b'sec-fetch-dest', b'empty'), (b'referer', b'https://127.0.0.1:8000/docs'), (b'accept-encoding', b'gzip, deflate, br, zstd'), (b'accept-language', b'en,vi-VN;q=0.9,vi;q=0.8,en-US;q=0.7')]",
+        "state": "{}",
+        "method": "\"POST\"",
+        "path": "\"/auth/login\"",
+        "raw_path": "b'/auth/login'",
+        "query_string": "b''",
+        "app": "<fastapi.applications.FastAPI object at 0x00000206B5869570>"
+    },
+    "body": "{\n  \"username\": \"c\",\n  \"password\": \"password\"\n}"
+}
+
+{
+    "method": "POST",
+    "url": "https://127.0.0.1:8000/auth/login",
+    "headers": {
+        "host": "127.0.0.1:8000",
+        "connection": "keep-alive",
+        "content-length": "47",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36",
+        "accept": "application/json",
+        "sec-ch-ua": "\"Not(A:Brand\";v=\"99\", \"Google Chrome\";v=\"133\", \"Chromium\";v=\"133\"",
+        "content-type": "application/json",
+        "sec-ch-ua-mobile": "?0",
+        "origin": "https://127.0.0.1:8000",
+        "sec-fetch-site": "same-origin",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "https://127.0.0.1:8000/docs",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en,vi-VN;q=0.9,vi;q=0.8,en-US;q=0.7",
+        "cookie": "sessionId=495133e6-8cd8-4a4b-bf13-dcfd4c839e7a"
+    },
+    "query_params": {},
+    "path_params": {},
+    "client": "127.0.0.1",
+    "client_meta": [
+        "127.0.0.1",
+        15698
+    ],
+    "cookies": {
+        "sessionId": "495133e6-8cd8-4a4b-bf13-dcfd4c839e7a"
+    },
+    "scope": {
+        "type": "\"http\"",
+        "asgi": "{\"version\": \"3.0\", \"spec_version\": \"2.4\"}",
+        "http_version": "\"1.1\"",
+        "server": "[\"127.0.0.1\", 8000]",
+        "client": "[\"127.0.0.1\", 15698]",
+        "scheme": "\"https\"",
+        "root_path": "\"\"",
+        "headers": "[(b'host', b'127.0.0.1:8000'), (b'connection', b'keep-alive'), (b'content-length', b'47'), (b'sec-ch-ua-platform', b'\"Windows\"'), (b'user-agent', b'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36'), (b'accept', b'application/json'), (b'sec-ch-ua', b'\"Not(A:Brand\";v=\"99\", \"Google Chrome\";v=\"133\", \"Chromium\";v=\"133\"'), (b'content-type', b'application/json'), (b'sec-ch-ua-mobile', b'?0'), (b'origin', b'https://127.0.0.1:8000'), (b'sec-fetch-site', b'same-origin'), (b'sec-fetch-mode', b'cors'), (b'sec-fetch-dest', b'empty'), (b'referer', b'https://127.0.0.1:8000/docs'), (b'accept-encoding', b'gzip, deflate, br, zstd'), (b'accept-language', b'en,vi-VN;q=0.9,vi;q=0.8,en-US;q=0.7'), (b'cookie', b'sessionId=495133e6-8cd8-4a4b-bf13-dcfd4c839e7a')]",
+        "state": "{}",
+        "method": "\"POST\"",
+        "path": "\"/auth/login\"",
+        "raw_path": "b'/auth/login'",
+        "query_string": "b''",
+        "app": "<fastapi.applications.FastAPI object at 0x00000206B5869570>"
+    },
+    "body": "{\n  \"username\": \"a\",\n  \"password\": \"password\"\n}"
+}
+
+{
+    "method": "POST",
+    "url": "https://127.0.0.1:8000/auth/login",
+    "headers": {
+        "host": "127.0.0.1:8000",
+        "connection": "keep-alive",
+        "content-length": "47",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36",
+        "accept": "application/json",
+        "sec-ch-ua": "\"Not(A:Brand\";v=\"99\", \"Google Chrome\";v=\"133\", \"Chromium\";v=\"133\"",
+        "content-type": "application/json",
+        "sec-ch-ua-mobile": "?0",
+        "origin": "https://127.0.0.1:8000",
+        "sec-fetch-site": "same-origin",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "https://127.0.0.1:8000/docs",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en,vi-VN;q=0.9,vi;q=0.8,en-US;q=0.7",
+        "cookie": "sessionId=495133e6-8cd8-4a4b-bf13-dcfd4c839e7a"
+    },
+    "query_params": {},
+    "path_params": {},
+    "client": "127.0.0.1",
+    "client_meta": [
+        "127.0.0.1",
+        15707
+    ],
+    "cookies": {
+        "sessionId": "495133e6-8cd8-4a4b-bf13-dcfd4c839e7a"
+    },
+    "scope": {
+        "type": "\"http\"",
+        "asgi": "{\"version\": \"3.0\", \"spec_version\": \"2.4\"}",
+        "http_version": "\"1.1\"",
+        "server": "[\"127.0.0.1\", 8000]",
+        "client": "[\"127.0.0.1\", 15707]",
+        "scheme": "\"https\"",
+        "root_path": "\"\"",
+        "headers": "[(b'host', b'127.0.0.1:8000'), (b'connection', b'keep-alive'), (b'content-length', b'47'), (b'sec-ch-ua-platform', b'\"Windows\"'), (b'user-agent', b'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36'), (b'accept', b'application/json'), (b'sec-ch-ua', b'\"Not(A:Brand\";v=\"99\", \"Google Chrome\";v=\"133\", \"Chromium\";v=\"133\"'), (b'content-type', b'application/json'), (b'sec-ch-ua-mobile', b'?0'), (b'origin', b'https://127.0.0.1:8000'), (b'sec-fetch-site', b'same-origin'), (b'sec-fetch-mode', b'cors'), (b'sec-fetch-dest', b'empty'), (b'referer', b'https://127.0.0.1:8000/docs'), (b'accept-encoding', b'gzip, deflate, br, zstd'), (b'accept-language', b'en,vi-VN;q=0.9,vi;q=0.8,en-US;q=0.7'), (b'cookie', b'sessionId=495133e6-8cd8-4a4b-bf13-dcfd4c839e7a')]",
+        "state": "{}",
+        "method": "\"POST\"",
+        "path": "\"/auth/login\"",
+        "raw_path": "b'/auth/login'",
+        "query_string": "b''",
+        "app": "<fastapi.applications.FastAPI object at 0x00000206B5869570>"
+    },
+    "body": "{\n  \"username\": \"b\",\n  \"password\": \"password\"\n}"
+}
+
+{
+    "method": "POST",
+    "url": "https://127.0.0.1:8000/auth/login",
+    "headers": {
+        "host": "127.0.0.1:8000",
+        "connection": "keep-alive",
+        "content-length": "47",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36",
+        "accept": "application/json",
+        "sec-ch-ua": "\"Not(A:Brand\";v=\"99\", \"Google Chrome\";v=\"133\", \"Chromium\";v=\"133\"",
+        "content-type": "application/json",
+        "sec-ch-ua-mobile": "?0",
+        "origin": "https://127.0.0.1:8000",
+        "sec-fetch-site": "same-origin",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "https://127.0.0.1:8000/docs",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en,vi-VN;q=0.9,vi;q=0.8,en-US;q=0.7",
+        "cookie": "sessionId=6970c9a4-ba24-4e41-888e-57cc05b2284b"
+    },
+    "query_params": {},
+    "path_params": {},
+    "client": "127.0.0.1",
+    "client_meta": [
+        "127.0.0.1",
+        15715
+    ],
+    "cookies": {
+        "sessionId": "6970c9a4-ba24-4e41-888e-57cc05b2284b"
+    },
+    "scope": {
+        "type": "\"http\"",
+        "asgi": "{\"version\": \"3.0\", \"spec_version\": \"2.4\"}",
+        "http_version": "\"1.1\"",
+        "server": "[\"127.0.0.1\", 8000]",
+        "client": "[\"127.0.0.1\", 15715]",
+        "scheme": "\"https\"",
+        "root_path": "\"\"",
+        "headers": "[(b'host', b'127.0.0.1:8000'), (b'connection', b'keep-alive'), (b'content-length', b'47'), (b'sec-ch-ua-platform', b'\"Windows\"'), (b'user-agent', b'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36'), (b'accept', b'application/json'), (b'sec-ch-ua', b'\"Not(A:Brand\";v=\"99\", \"Google Chrome\";v=\"133\", \"Chromium\";v=\"133\"'), (b'content-type', b'application/json'), (b'sec-ch-ua-mobile', b'?0'), (b'origin', b'https://127.0.0.1:8000'), (b'sec-fetch-site', b'same-origin'), (b'sec-fetch-mode', b'cors'), (b'sec-fetch-dest', b'empty'), (b'referer', b'https://127.0.0.1:8000/docs'), (b'accept-encoding', b'gzip, deflate, br, zstd'), (b'accept-language', b'en,vi-VN;q=0.9,vi;q=0.8,en-US;q=0.7'), (b'cookie', b'sessionId=6970c9a4-ba24-4e41-888e-57cc05b2284b')]",
+        "state": "{}",
+        "method": "\"POST\"",
+        "path": "\"/auth/login\"",
+        "raw_path": "b'/auth/login'",
+        "query_string": "b''",
+        "app": "<fastapi.applications.FastAPI object at 0x00000206B5869570>"
+    },
+    "body": "{\n  \"username\": \"a\",\n  \"password\": \"password\"\n}"
+}
+
+{
+    "method": "POST",
+    "url": "https://127.0.0.1:8000/auth/login",
+    "headers": {
+        "host": "127.0.0.1:8000",
+        "connection": "keep-alive",
+        "content-length": "47",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36",
+        "accept": "application/json",
+        "sec-ch-ua": "\"Not(A:Brand\";v=\"99\", \"Google Chrome\";v=\"133\", \"Chromium\";v=\"133\"",
+        "content-type": "application/json",
+        "sec-ch-ua-mobile": "?0",
+        "origin": "https://127.0.0.1:8000",
+        "sec-fetch-site": "same-origin",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "https://127.0.0.1:8000/docs",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en,vi-VN;q=0.9,vi;q=0.8,en-US;q=0.7",
+        "cookie": "sessionId=6970c9a4-ba24-4e41-888e-57cc05b2284b"
+    },
+    "query_params": {},
+    "path_params": {},
+    "client": "127.0.0.1",
+    "client_meta": [
+        "127.0.0.1",
+        15774
+    ],
+    "cookies": {
+        "sessionId": "6970c9a4-ba24-4e41-888e-57cc05b2284b"
+    },
+    "scope": {
+        "type": "\"http\"",
+        "asgi": "{\"version\": \"3.0\", \"spec_version\": \"2.4\"}",
+        "http_version": "\"1.1\"",
+        "server": "[\"127.0.0.1\", 8000]",
+        "client": "[\"127.0.0.1\", 15774]",
+        "scheme": "\"https\"",
+        "root_path": "\"\"",
+        "headers": "[(b'host', b'127.0.0.1:8000'), (b'connection', b'keep-alive'), (b'content-length', b'47'), (b'sec-ch-ua-platform', b'\"Windows\"'), (b'user-agent', b'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36'), (b'accept', b'application/json'), (b'sec-ch-ua', b'\"Not(A:Brand\";v=\"99\", \"Google Chrome\";v=\"133\", \"Chromium\";v=\"133\"'), (b'content-type', b'application/json'), (b'sec-ch-ua-mobile', b'?0'), (b'origin', b'https://127.0.0.1:8000'), (b'sec-fetch-site', b'same-origin'), (b'sec-fetch-mode', b'cors'), (b'sec-fetch-dest', b'empty'), (b'referer', b'https://127.0.0.1:8000/docs'), (b'accept-encoding', b'gzip, deflate, br, zstd'), (b'accept-language', b'en,vi-VN;q=0.9,vi;q=0.8,en-US;q=0.7'), (b'cookie', b'sessionId=6970c9a4-ba24-4e41-888e-57cc05b2284b')]",
+        "state": "{}",
+        "method": "\"POST\"",
+        "path": "\"/auth/login\"",
+        "raw_path": "b'/auth/login'",
+        "query_string": "b''",
+        "app": "<fastapi.applications.FastAPI object at 0x00000206B5869570>"
+    },
+    "body": "{\n  \"username\": \"d\",\n  \"password\": \"password\"\n}"
+}
+
+{
+    "method": "POST",
+    "url": "https://127.0.0.1:8000/orders/order",
+    "headers": {
+        "host": "127.0.0.1:8000",
+        "connection": "keep-alive",
+        "content-length": "46",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkIiwiaWF0IjoxNzQxNjQ2NzE2LCJuYmYiOjE3NDE2NDY3MTYsImp0aSI6IjgyNGZiOTAzLTE5NmUtNDU5Ni1iMGVlLTA3ZWJhMzQzYzZkYyIsImV4cCI6MTc0MTY0NzYxNiwidHlwZSI6ImFjY2VzcyIsImZyZXNoIjpmYWxzZX0.Nk5gV0y5MwWtcIbBve5TPDqiTBx1GvLPOy-Ah6kLJuc",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36",
+        "accept": "application/json",
+        "sec-ch-ua": "\"Not(A:Brand\";v=\"99\", \"Google Chrome\";v=\"133\", \"Chromium\";v=\"133\"",
+        "content-type": "application/json",
+        "sec-ch-ua-mobile": "?0",
+        "origin": "https://127.0.0.1:8000",
+        "sec-fetch-site": "same-origin",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "https://127.0.0.1:8000/docs",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en,vi-VN;q=0.9,vi;q=0.8,en-US;q=0.7",
+        "cookie": "sessionId=78badb11-907a-4480-8d7b-17a1c5eff4ff"
+    },
+    "query_params": {},
+    "path_params": {},
+    "client": "127.0.0.1",
+    "client_meta": [
+        "127.0.0.1",
+        15786
+    ],
+    "cookies": {
+        "sessionId": "78badb11-907a-4480-8d7b-17a1c5eff4ff"
+    },
+    "scope": {
+        "type": "\"http\"",
+        "asgi": "{\"version\": \"3.0\", \"spec_version\": \"2.4\"}",
+        "http_version": "\"1.1\"",
+        "server": "[\"127.0.0.1\", 8000]",
+        "client": "[\"127.0.0.1\", 15786]",
+        "scheme": "\"https\"",
+        "root_path": "\"\"",
+        "headers": "[(b'host', b'127.0.0.1:8000'), (b'connection', b'keep-alive'), (b'content-length', b'46'), (b'sec-ch-ua-platform', b'\"Windows\"'), (b'authorization', b'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkIiwiaWF0IjoxNzQxNjQ2NzE2LCJuYmYiOjE3NDE2NDY3MTYsImp0aSI6IjgyNGZiOTAzLTE5NmUtNDU5Ni1iMGVlLTA3ZWJhMzQzYzZkYyIsImV4cCI6MTc0MTY0NzYxNiwidHlwZSI6ImFjY2VzcyIsImZyZXNoIjpmYWxzZX0.Nk5gV0y5MwWtcIbBve5TPDqiTBx1GvLPOy-Ah6kLJuc'), (b'user-agent', b'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36'), (b'accept', b'application/json'), (b'sec-ch-ua', b'\"Not(A:Brand\";v=\"99\", \"Google Chrome\";v=\"133\", \"Chromium\";v=\"133\"'), (b'content-type', b'application/json'), (b'sec-ch-ua-mobile', b'?0'), (b'origin', b'https://127.0.0.1:8000'), (b'sec-fetch-site', b'same-origin'), (b'sec-fetch-mode', b'cors'), (b'sec-fetch-dest', b'empty'), (b'referer', b'https://127.0.0.1:8000/docs'), (b'accept-encoding', b'gzip, deflate, br, zstd'), (b'accept-language', b'en,vi-VN;q=0.9,vi;q=0.8,en-US;q=0.7'), (b'cookie', b'sessionId=78badb11-907a-4480-8d7b-17a1c5eff4ff')]",
+        "state": "{}",
+        "method": "\"POST\"",
+        "path": "\"/orders/order\"",
+        "raw_path": "b'/orders/order'",
+        "query_string": "b''",
+        "app": "<fastapi.applications.FastAPI object at 0x00000206B5869570>"
+    },
+    "body": "{\n  \"quantity\": 100,\n  \"pizza_size\": \"SMALL\"\n}"
+}
+
+{
+    "method": "GET",
+    "url": "https://127.0.0.1:8000/docs",
+    "headers": {
+        "host": "127.0.0.1:8000",
+        "connection": "keep-alive",
+        "cache-control": "max-age=0",
+        "sec-ch-ua": "\"Not(A:Brand\";v=\"99\", \"Google Chrome\";v=\"133\", \"Chromium\";v=\"133\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "upgrade-insecure-requests": "1",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36",
+        "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+        "sec-fetch-site": "same-origin",
+        "sec-fetch-mode": "navigate",
+        "sec-fetch-user": "?1",
+        "sec-fetch-dest": "document",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en,vi-VN;q=0.9,vi;q=0.8,en-US;q=0.7",
+        "cookie": "sessionId=78badb11-907a-4480-8d7b-17a1c5eff4ff"
+    },
+    "query_params": {},
+    "path_params": {},
+    "client": "127.0.0.1",
+    "client_meta": [
+        "127.0.0.1",
+        16140
+    ],
+    "cookies": {
+        "sessionId": "78badb11-907a-4480-8d7b-17a1c5eff4ff"
+    },
+    "scope": {
+        "type": "\"http\"",
+        "asgi": "{\"version\": \"3.0\", \"spec_version\": \"2.4\"}",
+        "http_version": "\"1.1\"",
+        "server": "[\"127.0.0.1\", 8000]",
+        "client": "[\"127.0.0.1\", 16140]",
+        "scheme": "\"https\"",
+        "root_path": "\"\"",
+        "headers": "[(b'host', b'127.0.0.1:8000'), (b'connection', b'keep-alive'), (b'cache-control', b'max-age=0'), (b'sec-ch-ua', b'\"Not(A:Brand\";v=\"99\", \"Google Chrome\";v=\"133\", \"Chromium\";v=\"133\"'), (b'sec-ch-ua-mobile', b'?0'), (b'sec-ch-ua-platform', b'\"Windows\"'), (b'upgrade-insecure-requests', b'1'), (b'user-agent', b'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36'), (b'accept', b'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7'), (b'sec-fetch-site', b'same-origin'), (b'sec-fetch-mode', b'navigate'), (b'sec-fetch-user', b'?1'), (b'sec-fetch-dest', b'document'), (b'accept-encoding', b'gzip, deflate, br, zstd'), (b'accept-language', b'en,vi-VN;q=0.9,vi;q=0.8,en-US;q=0.7'), (b'cookie', b'sessionId=78badb11-907a-4480-8d7b-17a1c5eff4ff')]",
+        "state": "{}",
+        "method": "\"GET\"",
+        "path": "\"/docs\"",
+        "raw_path": "b'/docs'",
+        "query_string": "b''",
+        "app": "<fastapi.applications.FastAPI object at 0x00000206B5869570>"
+    },
+    "body": "No body"
+}
+
+{
+    "method": "GET",
+    "url": "https://127.0.0.1:8000/openapi.json",
+    "headers": {
+        "host": "127.0.0.1:8000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36",
+        "accept": "application/json,*/*",
+        "sec-ch-ua": "\"Not(A:Brand\";v=\"99\", \"Google Chrome\";v=\"133\", \"Chromium\";v=\"133\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-fetch-site": "same-origin",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "https://127.0.0.1:8000/docs",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en,vi-VN;q=0.9,vi;q=0.8,en-US;q=0.7",
+        "cookie": "sessionId=78badb11-907a-4480-8d7b-17a1c5eff4ff"
+    },
+    "query_params": {},
+    "path_params": {},
+    "client": "127.0.0.1",
+    "client_meta": [
+        "127.0.0.1",
+        16145
+    ],
+    "cookies": {
+        "sessionId": "78badb11-907a-4480-8d7b-17a1c5eff4ff"
+    },
+    "scope": {
+        "type": "\"http\"",
+        "asgi": "{\"version\": \"3.0\", \"spec_version\": \"2.4\"}",
+        "http_version": "\"1.1\"",
+        "server": "[\"127.0.0.1\", 8000]",
+        "client": "[\"127.0.0.1\", 16145]",
+        "scheme": "\"https\"",
+        "root_path": "\"\"",
+        "headers": "[(b'host', b'127.0.0.1:8000'), (b'connection', b'keep-alive'), (b'sec-ch-ua-platform', b'\"Windows\"'), (b'user-agent', b'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36'), (b'accept', b'application/json,*/*'), (b'sec-ch-ua', b'\"Not(A:Brand\";v=\"99\", \"Google Chrome\";v=\"133\", \"Chromium\";v=\"133\"'), (b'sec-ch-ua-mobile', b'?0'), (b'sec-fetch-site', b'same-origin'), (b'sec-fetch-mode', b'cors'), (b'sec-fetch-dest', b'empty'), (b'referer', b'https://127.0.0.1:8000/docs'), (b'accept-encoding', b'gzip, deflate, br, zstd'), (b'accept-language', b'en,vi-VN;q=0.9,vi;q=0.8,en-US;q=0.7'), (b'cookie', b'sessionId=78badb11-907a-4480-8d7b-17a1c5eff4ff')]",
+        "state": "{}",
+        "method": "\"GET\"",
+        "path": "\"/openapi.json\"",
+        "raw_path": "b'/openapi.json'",
+        "query_string": "b''",
+        "app": "<fastapi.applications.FastAPI object at 0x00000206B5869570>"
+    },
+    "body": "No body"
+}
+
+{
+    "method": "POST",
+    "url": "https://127.0.0.1:8000/auth/login",
+    "headers": {
+        "host": "127.0.0.1:8000",
+        "connection": "keep-alive",
+        "content-length": "47",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36",
+        "accept": "application/json",
+        "sec-ch-ua": "\"Not(A:Brand\";v=\"99\", \"Google Chrome\";v=\"133\", \"Chromium\";v=\"133\"",
+        "content-type": "application/json",
+        "sec-ch-ua-mobile": "?0",
+        "origin": "https://127.0.0.1:8000",
+        "sec-fetch-site": "same-origin",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "https://127.0.0.1:8000/docs",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en,vi-VN;q=0.9,vi;q=0.8,en-US;q=0.7",
+        "cookie": "sessionId=78badb11-907a-4480-8d7b-17a1c5eff4ff"
+    },
+    "query_params": {},
+    "path_params": {},
+    "client": "127.0.0.1",
+    "client_meta": [
+        "127.0.0.1",
+        16179
+    ],
+    "cookies": {
+        "sessionId": "78badb11-907a-4480-8d7b-17a1c5eff4ff"
+    },
+    "scope": {
+        "type": "\"http\"",
+        "asgi": "{\"version\": \"3.0\", \"spec_version\": \"2.4\"}",
+        "http_version": "\"1.1\"",
+        "server": "[\"127.0.0.1\", 8000]",
+        "client": "[\"127.0.0.1\", 16179]",
+        "scheme": "\"https\"",
+        "root_path": "\"\"",
+        "headers": "[(b'host', b'127.0.0.1:8000'), (b'connection', b'keep-alive'), (b'content-length', b'47'), (b'sec-ch-ua-platform', b'\"Windows\"'), (b'user-agent', b'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36'), (b'accept', b'application/json'), (b'sec-ch-ua', b'\"Not(A:Brand\";v=\"99\", \"Google Chrome\";v=\"133\", \"Chromium\";v=\"133\"'), (b'content-type', b'application/json'), (b'sec-ch-ua-mobile', b'?0'), (b'origin', b'https://127.0.0.1:8000'), (b'sec-fetch-site', b'same-origin'), (b'sec-fetch-mode', b'cors'), (b'sec-fetch-dest', b'empty'), (b'referer', b'https://127.0.0.1:8000/docs'), (b'accept-encoding', b'gzip, deflate, br, zstd'), (b'accept-language', b'en,vi-VN;q=0.9,vi;q=0.8,en-US;q=0.7'), (b'cookie', b'sessionId=78badb11-907a-4480-8d7b-17a1c5eff4ff')]",
+        "state": "{}",
+        "method": "\"POST\"",
+        "path": "\"/auth/login\"",
+        "raw_path": "b'/auth/login'",
+        "query_string": "b''",
+        "app": "<fastapi.applications.FastAPI object at 0x00000206B5869570>"
+    },
+    "body": "{\n  \"username\": \"d\",\n  \"password\": \"password\"\n}"
+}
+
+{
+    "method": "GET",
+    "url": "http://localhost:8000/docs",
+    "headers": {
+        "host": "localhost:8000",
+        "connection": "keep-alive",
+        "sec-ch-ua": "\"Not(A:Brand\";v=\"99\", \"Google Chrome\";v=\"133\", \"Chromium\";v=\"133\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "upgrade-insecure-requests": "1",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36",
+        "sec-purpose": "prefetch;prerender",
+        "purpose": "prefetch",
+        "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+        "sec-fetch-site": "none",
+        "sec-fetch-mode": "navigate",
+        "sec-fetch-user": "?1",
+        "sec-fetch-dest": "document",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en,vi-VN;q=0.9,vi;q=0.8,en-US;q=0.7",
+        "cookie": "sessionId=0835dd1c-2428-4a30-827d-961375b8d2df"
+    },
+    "query_params": {},
+    "path_params": {},
+    "client": "127.0.0.1",
+    "client_meta": [
+        "127.0.0.1",
+        17340
+    ],
+    "cookies": {
+        "sessionId": "0835dd1c-2428-4a30-827d-961375b8d2df"
+    },
+    "scope": {
+        "type": "\"http\"",
+        "asgi": "{\"version\": \"3.0\", \"spec_version\": \"2.4\"}",
+        "http_version": "\"1.1\"",
+        "server": "[\"127.0.0.1\", 8000]",
+        "client": "[\"127.0.0.1\", 17340]",
+        "scheme": "\"http\"",
+        "root_path": "\"\"",
+        "headers": "[(b'host', b'localhost:8000'), (b'connection', b'keep-alive'), (b'sec-ch-ua', b'\"Not(A:Brand\";v=\"99\", \"Google Chrome\";v=\"133\", \"Chromium\";v=\"133\"'), (b'sec-ch-ua-mobile', b'?0'), (b'sec-ch-ua-platform', b'\"Windows\"'), (b'upgrade-insecure-requests', b'1'), (b'user-agent', b'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36'), (b'sec-purpose', b'prefetch;prerender'), (b'purpose', b'prefetch'), (b'accept', b'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7'), (b'sec-fetch-site', b'none'), (b'sec-fetch-mode', b'navigate'), (b'sec-fetch-user', b'?1'), (b'sec-fetch-dest', b'document'), (b'accept-encoding', b'gzip, deflate, br, zstd'), (b'accept-language', b'en,vi-VN;q=0.9,vi;q=0.8,en-US;q=0.7'), (b'cookie', b'sessionId=0835dd1c-2428-4a30-827d-961375b8d2df')]",
+        "state": "{}",
+        "method": "\"GET\"",
+        "path": "\"/docs\"",
+        "raw_path": "b'/docs'",
+        "query_string": "b''",
+        "app": "<fastapi.applications.FastAPI object at 0x00000214925D5990>"
+    },
+    "body": "No body"
+}
+
+{
+    "method": "GET",
+    "url": "http://localhost:8000/openapi.json",
+    "headers": {
+        "host": "localhost:8000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36",
+        "accept": "application/json,*/*",
+        "sec-ch-ua": "\"Not(A:Brand\";v=\"99\", \"Google Chrome\";v=\"133\", \"Chromium\";v=\"133\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-fetch-site": "same-origin",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:8000/docs",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en,vi-VN;q=0.9,vi;q=0.8,en-US;q=0.7",
+        "cookie": "sessionId=0835dd1c-2428-4a30-827d-961375b8d2df"
+    },
+    "query_params": {},
+    "path_params": {},
+    "client": "127.0.0.1",
+    "client_meta": [
+        "127.0.0.1",
+        17354
+    ],
+    "cookies": {
+        "sessionId": "0835dd1c-2428-4a30-827d-961375b8d2df"
+    },
+    "scope": {
+        "type": "\"http\"",
+        "asgi": "{\"version\": \"3.0\", \"spec_version\": \"2.4\"}",
+        "http_version": "\"1.1\"",
+        "server": "[\"127.0.0.1\", 8000]",
+        "client": "[\"127.0.0.1\", 17354]",
+        "scheme": "\"http\"",
+        "root_path": "\"\"",
+        "headers": "[(b'host', b'localhost:8000'), (b'connection', b'keep-alive'), (b'sec-ch-ua-platform', b'\"Windows\"'), (b'user-agent', b'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36'), (b'accept', b'application/json,*/*'), (b'sec-ch-ua', b'\"Not(A:Brand\";v=\"99\", \"Google Chrome\";v=\"133\", \"Chromium\";v=\"133\"'), (b'sec-ch-ua-mobile', b'?0'), (b'sec-fetch-site', b'same-origin'), (b'sec-fetch-mode', b'cors'), (b'sec-fetch-dest', b'empty'), (b'referer', b'http://localhost:8000/docs'), (b'accept-encoding', b'gzip, deflate, br, zstd'), (b'accept-language', b'en,vi-VN;q=0.9,vi;q=0.8,en-US;q=0.7'), (b'cookie', b'sessionId=0835dd1c-2428-4a30-827d-961375b8d2df')]",
+        "state": "{}",
+        "method": "\"GET\"",
+        "path": "\"/openapi.json\"",
+        "raw_path": "b'/openapi.json'",
+        "query_string": "b''",
+        "app": "<fastapi.applications.FastAPI object at 0x00000214925D5990>"
+    },
+    "body": "No body"
+}
+
+{
+    "method": "GET",
+    "url": "https://b3f8-77-240-181-39.ngrok-free.app/",
+    "headers": {
+        "host": "b3f8-77-240-181-39.ngrok-free.app",
+        "user-agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_6_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 [FBAN/FBIOS;FBAV/497.1.0.68.108;FBBV/705219623;FBDV/iPhone15,3;FBMD/iPhone;FBSN/iOS;FBSV/17.6.1;FBSS/3;FBCR/;FBID/phone;FBLC/vi_VN;FBOP/80]",
+        "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "accept-encoding": "gzip, deflate, br",
+        "accept-language": "vi-VN,vi;q=0.9",
+        "cache-control": "max-age=0",
+        "cookie": "abuse_interstitial=b3f8-77-240-181-39.ngrok-free.app",
+        "sec-fetch-dest": "document",
+        "sec-fetch-mode": "navigate",
+        "sec-fetch-site": "none",
+        "x-forwarded-for": "77.240.181.39",
+        "x-forwarded-host": "b3f8-77-240-181-39.ngrok-free.app",
+        "x-forwarded-proto": "https"
+    },
+    "query_params": {},
+    "path_params": {},
+    "client": "77.240.181.39",
+    "client_meta": [
+        "77.240.181.39",
+        0
+    ],
+    "cookies": {
+        "abuse_interstitial": "b3f8-77-240-181-39.ngrok-free.app"
+    },
+    "scope": {
+        "type": "\"http\"",
+        "asgi": "{\"version\": \"3.0\", \"spec_version\": \"2.4\"}",
+        "http_version": "\"1.1\"",
+        "server": "[\"127.0.0.1\", 8000]",
+        "client": "[\"77.240.181.39\", 0]",
+        "scheme": "\"https\"",
+        "root_path": "\"\"",
+        "headers": "[(b'host', b'b3f8-77-240-181-39.ngrok-free.app'), (b'user-agent', b'Mozilla/5.0 (iPhone; CPU iPhone OS 17_6_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 [FBAN/FBIOS;FBAV/497.1.0.68.108;FBBV/705219623;FBDV/iPhone15,3;FBMD/iPhone;FBSN/iOS;FBSV/17.6.1;FBSS/3;FBCR/;FBID/phone;FBLC/vi_VN;FBOP/80]'), (b'accept', b'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'), (b'accept-encoding', b'gzip, deflate, br'), (b'accept-language', b'vi-VN,vi;q=0.9'), (b'cache-control', b'max-age=0'), (b'cookie', b'abuse_interstitial=b3f8-77-240-181-39.ngrok-free.app'), (b'sec-fetch-dest', b'document'), (b'sec-fetch-mode', b'navigate'), (b'sec-fetch-site', b'none'), (b'x-forwarded-for', b'77.240.181.39'), (b'x-forwarded-host', b'b3f8-77-240-181-39.ngrok-free.app'), (b'x-forwarded-proto', b'https')]",
+        "state": "{}",
+        "method": "\"GET\"",
+        "path": "\"/\"",
+        "raw_path": "b'/'",
+        "query_string": "b''",
+        "app": "<fastapi.applications.FastAPI object at 0x00000214925D5990>"
+    },
+    "body": "No body"
+}
+
+{
+    "method": "GET",
+    "url": "https://b3f8-77-240-181-39.ngrok-free.app/docs",
+    "headers": {
+        "host": "b3f8-77-240-181-39.ngrok-free.app",
+        "user-agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_6_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.6 Mobile/15E148 Safari/604.1",
+        "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "accept-encoding": "gzip, deflate, br",
+        "accept-language": "vi-VN,vi;q=0.9",
+        "cache-control": "max-age=0",
+        "cookie": "abuse_interstitial=b3f8-77-240-181-39.ngrok-free.app",
+        "sec-fetch-dest": "document",
+        "sec-fetch-mode": "navigate",
+        "sec-fetch-site": "none",
+        "x-forwarded-for": "77.240.181.39",
+        "x-forwarded-host": "b3f8-77-240-181-39.ngrok-free.app",
+        "x-forwarded-proto": "https"
+    },
+    "query_params": {},
+    "path_params": {},
+    "client": "77.240.181.39",
+    "client_meta": [
+        "77.240.181.39",
+        0
+    ],
+    "cookies": {
+        "abuse_interstitial": "b3f8-77-240-181-39.ngrok-free.app"
+    },
+    "scope": {
+        "type": "\"http\"",
+        "asgi": "{\"version\": \"3.0\", \"spec_version\": \"2.4\"}",
+        "http_version": "\"1.1\"",
+        "server": "[\"127.0.0.1\", 8000]",
+        "client": "[\"77.240.181.39\", 0]",
+        "scheme": "\"https\"",
+        "root_path": "\"\"",
+        "headers": "[(b'host', b'b3f8-77-240-181-39.ngrok-free.app'), (b'user-agent', b'Mozilla/5.0 (iPhone; CPU iPhone OS 17_6_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.6 Mobile/15E148 Safari/604.1'), (b'accept', b'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'), (b'accept-encoding', b'gzip, deflate, br'), (b'accept-language', b'vi-VN,vi;q=0.9'), (b'cache-control', b'max-age=0'), (b'cookie', b'abuse_interstitial=b3f8-77-240-181-39.ngrok-free.app'), (b'sec-fetch-dest', b'document'), (b'sec-fetch-mode', b'navigate'), (b'sec-fetch-site', b'none'), (b'x-forwarded-for', b'77.240.181.39'), (b'x-forwarded-host', b'b3f8-77-240-181-39.ngrok-free.app'), (b'x-forwarded-proto', b'https')]",
+        "state": "{}",
+        "method": "\"GET\"",
+        "path": "\"/docs\"",
+        "raw_path": "b'/docs'",
+        "query_string": "b''",
+        "app": "<fastapi.applications.FastAPI object at 0x00000214925D5990>"
+    },
+    "body": "No body"
+}
+
+{
+    "method": "GET",
+    "url": "https://b3f8-77-240-181-39.ngrok-free.app/openapi.json",
+    "headers": {
+        "host": "b3f8-77-240-181-39.ngrok-free.app",
+        "user-agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_6_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.6 Mobile/15E148 Safari/604.1",
+        "accept": "application/json,*/*",
+        "accept-encoding": "gzip, deflate, br",
+        "accept-language": "vi-VN,vi;q=0.9",
+        "cookie": "abuse_interstitial=b3f8-77-240-181-39.ngrok-free.app",
+        "referer": "https://b3f8-77-240-181-39.ngrok-free.app/docs",
+        "sec-fetch-dest": "empty",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-origin",
+        "x-forwarded-for": "77.240.181.39",
+        "x-forwarded-host": "b3f8-77-240-181-39.ngrok-free.app",
+        "x-forwarded-proto": "https"
+    },
+    "query_params": {},
+    "path_params": {},
+    "client": "77.240.181.39",
+    "client_meta": [
+        "77.240.181.39",
+        0
+    ],
+    "cookies": {
+        "abuse_interstitial": "b3f8-77-240-181-39.ngrok-free.app"
+    },
+    "scope": {
+        "type": "\"http\"",
+        "asgi": "{\"version\": \"3.0\", \"spec_version\": \"2.4\"}",
+        "http_version": "\"1.1\"",
+        "server": "[\"127.0.0.1\", 8000]",
+        "client": "[\"77.240.181.39\", 0]",
+        "scheme": "\"https\"",
+        "root_path": "\"\"",
+        "headers": "[(b'host', b'b3f8-77-240-181-39.ngrok-free.app'), (b'user-agent', b'Mozilla/5.0 (iPhone; CPU iPhone OS 17_6_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.6 Mobile/15E148 Safari/604.1'), (b'accept', b'application/json,*/*'), (b'accept-encoding', b'gzip, deflate, br'), (b'accept-language', b'vi-VN,vi;q=0.9'), (b'cookie', b'abuse_interstitial=b3f8-77-240-181-39.ngrok-free.app'), (b'referer', b'https://b3f8-77-240-181-39.ngrok-free.app/docs'), (b'sec-fetch-dest', b'empty'), (b'sec-fetch-mode', b'cors'), (b'sec-fetch-site', b'same-origin'), (b'x-forwarded-for', b'77.240.181.39'), (b'x-forwarded-host', b'b3f8-77-240-181-39.ngrok-free.app'), (b'x-forwarded-proto', b'https')]",
+        "state": "{}",
+        "method": "\"GET\"",
+        "path": "\"/openapi.json\"",
+        "raw_path": "b'/openapi.json'",
+        "query_string": "b''",
+        "app": "<fastapi.applications.FastAPI object at 0x00000214925D5990>"
+    },
+    "body": "No body"
+}
+
+{
+    "method": "GET",
+    "url": "https://b3f8-77-240-181-39.ngrok-free.app/docs",
+    "headers": {
+        "host": "b3f8-77-240-181-39.ngrok-free.app",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36",
+        "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en,vi-VN;q=0.9,vi;q=0.8,en-US;q=0.7",
+        "cache-control": "max-age=0",
+        "cookie": "abuse_interstitial=b3f8-77-240-181-39.ngrok-free.app",
+        "priority": "u=0, i",
+        "sec-ch-ua": "\"Not(A:Brand\";v=\"99\", \"Google Chrome\";v=\"133\", \"Chromium\";v=\"133\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "sec-fetch-dest": "document",
+        "sec-fetch-mode": "navigate",
+        "sec-fetch-site": "same-origin",
+        "sec-fetch-user": "?1",
+        "upgrade-insecure-requests": "1",
+        "x-forwarded-for": "77.240.181.39",
+        "x-forwarded-host": "b3f8-77-240-181-39.ngrok-free.app",
+        "x-forwarded-proto": "https"
+    },
+    "query_params": {},
+    "path_params": {},
+    "client": "77.240.181.39",
+    "client_meta": [
+        "77.240.181.39",
+        0
+    ],
+    "cookies": {
+        "abuse_interstitial": "b3f8-77-240-181-39.ngrok-free.app"
+    },
+    "scope": {
+        "type": "\"http\"",
+        "asgi": "{\"version\": \"3.0\", \"spec_version\": \"2.4\"}",
+        "http_version": "\"1.1\"",
+        "server": "[\"127.0.0.1\", 8000]",
+        "client": "[\"77.240.181.39\", 0]",
+        "scheme": "\"https\"",
+        "root_path": "\"\"",
+        "headers": "[(b'host', b'b3f8-77-240-181-39.ngrok-free.app'), (b'user-agent', b'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36'), (b'accept', b'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7'), (b'accept-encoding', b'gzip, deflate, br, zstd'), (b'accept-language', b'en,vi-VN;q=0.9,vi;q=0.8,en-US;q=0.7'), (b'cache-control', b'max-age=0'), (b'cookie', b'abuse_interstitial=b3f8-77-240-181-39.ngrok-free.app'), (b'priority', b'u=0, i'), (b'sec-ch-ua', b'\"Not(A:Brand\";v=\"99\", \"Google Chrome\";v=\"133\", \"Chromium\";v=\"133\"'), (b'sec-ch-ua-mobile', b'?0'), (b'sec-ch-ua-platform', b'\"Windows\"'), (b'sec-fetch-dest', b'document'), (b'sec-fetch-mode', b'navigate'), (b'sec-fetch-site', b'same-origin'), (b'sec-fetch-user', b'?1'), (b'upgrade-insecure-requests', b'1'), (b'x-forwarded-for', b'77.240.181.39'), (b'x-forwarded-host', b'b3f8-77-240-181-39.ngrok-free.app'), (b'x-forwarded-proto', b'https')]",
+        "state": "{}",
+        "method": "\"GET\"",
+        "path": "\"/docs\"",
+        "raw_path": "b'/docs'",
+        "query_string": "b''",
+        "app": "<fastapi.applications.FastAPI object at 0x00000214925D5990>"
+    },
+    "body": "No body"
+}
+
+{
+    "method": "GET",
+    "url": "https://b3f8-77-240-181-39.ngrok-free.app/openapi.json",
+    "headers": {
+        "host": "b3f8-77-240-181-39.ngrok-free.app",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36",
+        "accept": "application/json,*/*",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en,vi-VN;q=0.9,vi;q=0.8,en-US;q=0.7",
+        "cookie": "abuse_interstitial=b3f8-77-240-181-39.ngrok-free.app",
+        "priority": "u=1, i",
+        "referer": "https://b3f8-77-240-181-39.ngrok-free.app/docs",
+        "sec-ch-ua": "\"Not(A:Brand\";v=\"99\", \"Google Chrome\";v=\"133\", \"Chromium\";v=\"133\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "sec-fetch-dest": "empty",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-origin",
+        "x-forwarded-for": "77.240.181.39",
+        "x-forwarded-host": "b3f8-77-240-181-39.ngrok-free.app",
+        "x-forwarded-proto": "https"
+    },
+    "query_params": {},
+    "path_params": {},
+    "client": "77.240.181.39",
+    "client_meta": [
+        "77.240.181.39",
+        0
+    ],
+    "cookies": {
+        "abuse_interstitial": "b3f8-77-240-181-39.ngrok-free.app"
+    },
+    "scope": {
+        "type": "\"http\"",
+        "asgi": "{\"version\": \"3.0\", \"spec_version\": \"2.4\"}",
+        "http_version": "\"1.1\"",
+        "server": "[\"127.0.0.1\", 8000]",
+        "client": "[\"77.240.181.39\", 0]",
+        "scheme": "\"https\"",
+        "root_path": "\"\"",
+        "headers": "[(b'host', b'b3f8-77-240-181-39.ngrok-free.app'), (b'user-agent', b'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36'), (b'accept', b'application/json,*/*'), (b'accept-encoding', b'gzip, deflate, br, zstd'), (b'accept-language', b'en,vi-VN;q=0.9,vi;q=0.8,en-US;q=0.7'), (b'cookie', b'abuse_interstitial=b3f8-77-240-181-39.ngrok-free.app'), (b'priority', b'u=1, i'), (b'referer', b'https://b3f8-77-240-181-39.ngrok-free.app/docs'), (b'sec-ch-ua', b'\"Not(A:Brand\";v=\"99\", \"Google Chrome\";v=\"133\", \"Chromium\";v=\"133\"'), (b'sec-ch-ua-mobile', b'?0'), (b'sec-ch-ua-platform', b'\"Windows\"'), (b'sec-fetch-dest', b'empty'), (b'sec-fetch-mode', b'cors'), (b'sec-fetch-site', b'same-origin'), (b'x-forwarded-for', b'77.240.181.39'), (b'x-forwarded-host', b'b3f8-77-240-181-39.ngrok-free.app'), (b'x-forwarded-proto', b'https')]",
+        "state": "{}",
+        "method": "\"GET\"",
+        "path": "\"/openapi.json\"",
+        "raw_path": "b'/openapi.json'",
+        "query_string": "b''",
+        "app": "<fastapi.applications.FastAPI object at 0x00000214925D5990>"
+    },
+    "body": "No body"
+}
+
